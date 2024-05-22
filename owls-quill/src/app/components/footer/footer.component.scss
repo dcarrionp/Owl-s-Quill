@@ -46,3 +46,12 @@
         }
     }
 }
+
+.social-media a img {
+    width: 24px;  // Width of the icons
+    height: 24px; // Height of the icons
+    object-fit: contain; // Ensures the image's aspect ratio is maintained
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px; // Adjust space between icons
+}
