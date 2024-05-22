@@ -1,0 +1,48 @@
+.footer {
+    background-color: #ffffff; // Adjust the color as needed
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid #ccc; // Adds a top border
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 80%; // Control the width of the footer content
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+
+            img {
+                width: 50px; // Adjust size as needed
+                margin-right: 10px;
+            }
+        }
+
+        .contact-section, .social-media {
+            display: flex;
+            flex-direction: column;
+
+            p {
+                margin: 5px 0;
+            }
+
+            a {
+                margin-right: 10px;
+                color: #000; // Adjust as needed
+                text-decoration: none;
+
+                &:hover {
+                    color: #555; // Adjust as needed
+                }
+
+                i {
+                    font-size: 24px; // Adjust as needed
+                }
+            }
+        }
+    }
+}
