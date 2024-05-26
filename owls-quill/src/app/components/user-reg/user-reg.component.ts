@@ -2,7 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+//import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -24,11 +24,11 @@ export class UserRegComponent implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(8)])
   });
 
-  constructor(private http: HttpClient) { }
+  //constructor(private http: HttpClient) { }
 
-  registerUser(userData: any): Observable<any> {
+ /* registerUser(userData: any): Observable<any> {
     return this.http.post('/api/register', userData);
-  }
+  }*/
 
   ngOnInit(): void {
     // Form initialization if needed

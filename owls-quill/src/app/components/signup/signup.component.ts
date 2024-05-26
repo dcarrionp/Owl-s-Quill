@@ -15,7 +15,7 @@ export class SignupComponent {
   constructor(private router: Router) {}
 
   onSignupWithEmail(): void {
-    // Assuming you have some validation or processing here
+    console.log("Navigating to registration page");
     this.router.navigate(['/register'], { queryParams: { email: this.email } });
   }
 }
