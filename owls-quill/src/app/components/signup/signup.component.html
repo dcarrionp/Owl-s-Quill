@@ -3,10 +3,10 @@
         <img src="assets/owl-logo.png" alt="Owl's Quill Logo" class="round-logo">
         <h1>Owl's Quill</h1>
     </div>
-    <form class="login-form">
+    <form class="login-form" (submit)="onSignupWithEmail()">
         <h2>Create an account</h2>
         <p>Enter your email to sign up for this app</p>
-        <input type="email" placeholder="email@domain.com" required>
+        <input type="email" placeholder="email@domain.com" required [(ngModel)]="email">
         <button type="submit">Sign up with email</button>
         <div class="or-continue-with">or continue with</div>
         <button type="button" class="google-btn">Google</button>

@@ -1,0 +1,27 @@
+<div class="registration-container">
+    <div class="owl-illustration">
+      <img src="assets/owl-writing.svg" alt="Owl Writing"> <!-- Ensure the path to the image is correct -->
+    </div>
+    <div class="form-container">
+      <h1>Create an account</h1>
+      <p>Let us know you better</p>
+      <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+        <div class="form-group">
+          <label for="name">What is your name?</label>
+          <input type="text" id="name" formControlName="name" placeholder="Name">
+          
+        </div>
+        <div class="form-group">
+          <label for="username">Write your username</label>
+          <input type="text" id="username" formControlName="username" placeholder="Username">
+          
+        </div>
+        <div class="form-group">
+          <label for="password">Let's keep your account secure</label>
+          <input type="password" id="password" formControlName="password" placeholder="Password">
+          
+        </div>
+        <button type="submit" class="btn-submit">Create Account</button>
+      </form>
+    </div>
+  </div>  
