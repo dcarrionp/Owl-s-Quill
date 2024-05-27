@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { HomeComponent } from './components/home/home.component';
+
+// Importa FormsModule y ReactiveFormsModule
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+// Importa AngularFire y Firestore
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, FooterComponent, HomeComponent],
+  imports: [
+    RouterOutlet,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'owls-quill';
