@@ -1,0 +1,54 @@
+.dashboard {
+    display: flex;
+  
+    .sidebar {
+      width: 200px;
+      background-color: #f4f4f4;
+      height: 100vh;
+      padding: 20px;
+  
+      h1 {
+        margin-bottom: 20px;
+      }
+  
+      nav ul {
+        list-style-type: none;
+        padding: 0;
+  
+        li a {
+          text-decoration: none;
+          color: black;
+          display: block;
+          padding: 10px;
+        }
+      }
+    }
+  
+    .main-content {
+      flex-grow: 1;
+      padding: 20px;
+  
+      .search-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+  
+      .catalog {
+        table {
+          width: 100%;
+          border-collapse: collapse;
+  
+          th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+          }
+  
+          th {
+            background-color: #eee;
+          }
+        }
+      }
+    }
+  }

@@ -92,7 +92,12 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/firebase/firebase-app.js",
+              "node_modules/firebase/firebase-auth.js",
+              "node_modules/firebase/firebase-firestore.js",
+              "node_modules/firebase/firebase-storage.js"
+            ]
           }
         }
       }

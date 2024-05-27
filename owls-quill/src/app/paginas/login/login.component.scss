@@ -1,0 +1,106 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+
+    .logo {
+        text-align: center;
+        margin-bottom: 20px;
+
+        img {
+            width: 100px;
+            border-radius: 50%;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 10px 0;
+            color: #333;
+        }
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 15px;
+            
+
+            .form-control {
+                width: 95%;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #555;
+            }
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+
+            span {
+                margin: 0 10px;
+                color: #999;
+            }
+
+            .signup-btn {
+                padding: 10px;
+                background-color: transparent;
+                color: #333;
+                border: 1px solid #333;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background-color 0.3s, color 0.3s;
+
+                &:hover {
+                    background-color: #333;
+                    color: #fff;
+                }
+
+                i {
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .register-link {
+            margin-top: 20px;
+            color: #007bff;
+
+            a {
+                color: #007bff;
+                text-decoration: none;
+            }
+        }
+    }
+}
