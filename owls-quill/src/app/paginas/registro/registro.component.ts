@@ -19,6 +19,7 @@ export class RegistroComponent {
   router = inject(Router);
 
   form = this.fb.nonNullable.group({
+    name: ['', Validators.required],
     username: ['', Validators.required],
     email: ['', Validators.required],
     password: ['', Validators.required],
@@ -33,9 +34,9 @@ export class RegistroComponent {
       console.error('Passwords do not match');
       return;
     }
-    this.authService.register(rawForm.email, rawForm.username, rawForm.password).subscribe({
+    this.authService.register(rawForm.email, rawForm.password).subscribe({
       next: () => {
-        this.router.navigateByUrl('/home')
+        this.router.navigateByUrl('/RegForm')
       },
       error: (err) => {
         this.errorMessage = err.code;

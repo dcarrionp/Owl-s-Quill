@@ -5,6 +5,8 @@ import { RegistroComponent } from './paginas/registro/registro.component';
 import { CatalagoComponent } from './paginas/catalago/catalago.component';
 import { PerfilComponent } from './paginas/perfil/perfil.component';
 import { SettingsComponent } from './paginas/settings/settings.component';
+import { RegFormComponent } from './paginas/reg-form/reg-form.component';
+
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -13,5 +15,6 @@ export const routes: Routes = [
     { path: "perfil", component: PerfilComponent },
     { path: "registro", component: RegistroComponent },
     { path: "catalogo", component: CatalagoComponent },
-    { path: "perfil/settings", component: SettingsComponent }
+    { path: "perfil/settings", component: SettingsComponent },
+    { path: "RegForm", component:RegFormComponent}
 ];

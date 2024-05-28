@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
@@ -17,6 +17,7 @@ export class SettingsComponent implements OnInit {
   user$: Observable<any>;
   currentUser: any = null; // Inicializar currentUser como null
 
+
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.settingsForm = this.fb.group({
       username: [''],
@@ -29,7 +30,7 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.user$.subscribe(user => {
       if (user) {
-        this.currentUser = user; // Guardamos el usuario actual
+        this.currentUser = user;
         this.settingsForm.patchValue({
           username: user.displayName || '',
           email: user.email || ''
@@ -47,35 +48,6 @@ export class SettingsComponent implements OnInit {
         return;
       }
 
-      // Reautenticamos al usuario antes de realizar los cambios
-      this.authService.reauthenticate(this.currentUser.email, password).subscribe({
-        next: () => {
-          console.log('User reauthenticated, updating profile...');
-          this.authService.updateUserProfile(username).subscribe({
-            next: () => {
-              console.log('Username updated successfully');
-              if (email !== this.currentUser.email) {
-                this.authService.sendVerificationEmail(email).subscribe({
-                  next: () => {
-                    console.log('Verification email sent. Please verify your new email.');
-                  },
-                  error: (error) => {
-                    console.error('Error sending verification email', error);
-                  }
-                });
-              }
-            },
-            error: (error) => {
-              console.error('Error updating username', error);
-            }
-          });
-        },
-        error: (error) => {
-          console.error('Error reauthenticating user', error);
-        }
-      });
-    } else {
-      console.error('User is not logged in or form is invalid.');
     }
   }
 }

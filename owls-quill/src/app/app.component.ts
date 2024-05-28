@@ -30,6 +30,7 @@ export class AppComponent implements OnInit{
         this.authService.currentUserSig.set({
           email: user.email!,
           username: user.displayName!,
+          name: user.displayName!
         })
       }else {
         this.authService.currentUserSig.set(null);
