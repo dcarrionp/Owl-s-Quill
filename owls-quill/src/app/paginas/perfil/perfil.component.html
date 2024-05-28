@@ -1,1 +1,19 @@
-<p>perfil works!</p>
+<div class="profile-container">
+    <div class="profile-content">
+      <div class="profile-header">
+        <img src="assets/user-photo.png" alt="Profile Photo" class="profile-photo">
+      </div>
+      <div>
+        <span class="detail-label">Usuario</span>
+        <h2>{{ (user$ | async)?.displayName }}</h2>
+      </div>
+      <div>
+        <span class="detail-label">Email</span>
+        <h2 class="detail-value">{{ (user$ | async)?.email }}</h2>
+      </div>
+      <div class="edit-profile-container">
+        <a routerLink="settings" class="edit-profile-link">Editar perfil</a>
+      </div>
+    </div>
+  </div>
+  

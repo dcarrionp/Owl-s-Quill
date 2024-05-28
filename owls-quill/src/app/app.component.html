@@ -1,7 +1,7 @@
 <body>
     <main>
-        <app-header></app-header>
-        <app-body></app-body>
-        <app-footer></app-footer>
+      <app-header *ngIf="showHeaderFooter"></app-header>
+      <app-body></app-body>
+      <app-footer *ngIf="showHeaderFooter"></app-footer>
     </main>
-</body>
+  </body>
