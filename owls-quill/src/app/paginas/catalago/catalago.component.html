@@ -1,73 +1,24 @@
-   <!--<div class="dashboard">
-  <div class="sidebar">
-  Sidebar Content 
-    <h1>Owl's Quill</h1>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <!-- Other links 
-      </ul>
-    </nav>
-  </div>
-  <div class="main-content">
-    <div class="search-bar">
-      <input type="search" placeholder="Buscar libros...">
-      <button>Filter</button>
-    </div>
-    <div class="catalog">
-      <table>
-        <thead>
-          <tr>
-            <th>Codigo</th>
-            <th>Titulo</th>
-            <th>Autor</th>
-            <th>Fecha publicacion</th>
-            <th>Portada</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let book of books">
-            <td>{{ book.code }}</td>
-            <td>{{ book.title }}</td>
-            <td>{{ book.author }}</td>
-            <td>{{ book.publicationDate }}</td>
-            <td>
-              <img [src]="book.cover" alt="{{ book.title }}" width="50">
-            </td>
-            <td>
-              <button (click)="editBook(book)">Editar</button>
-              <button *ngIf="book.id" (click)="deleteBook(book.id!)">Eliminar</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div *ngIf="isAdmin" class="add-book-form">
-      <h2>Agregar Nuevo Libro</h2>
-      <form (submit)="onSubmit()">
-        <div class="form-group">
-          <label for="code">Codigo:</label>
-          <input type="text" id="code" [(ngModel)]="newBook.code" name="code" required>
-        </div>
-        <div class="form-group">
-          <label for="title">Titulo:</label>
-          <input type="text" id="title" [(ngModel)]="newBook.title" name="title" required>
-        </div>
-        <div class="form-group">
-          <label for="author">Autor:</label>
-          <input type="text" id="author" [(ngModel)]="newBook.author" name="author" required>
-        </div>
-        <div class="form-group">
-          <label for="publicationDate">Fecha publicacion:</label>
-          <input type="date" id="publicationDate" [(ngModel)]="newBook.publicationDate" name="publicationDate" required>
-        </div>
-        <div class="form-group">
-          <label for="cover">Portada:</label>
-          <input type="text" id="cover" [(ngModel)]="newBook.cover" name="cover" placeholder="URL de la portada" required>
-        </div>
-        <button type="submit" class="btn btn-success">Agregar Libro</button>
-      </form>
+<div class="catalog-container">
+  <div class="header">
+    <h1>Catálogo</h1>
+    <div class="search-filter">
+      <input type="text" placeholder="Buscar libros...">
     </div>
   </div>
-</div>-->
+  <div class="add-book-form">
+    <input type="text" #bookTitle placeholder="Título del libro" [value]="selectedBook?.title || ''">
+    <input type="file" (change)="onFileSelected($event)">
+    <button *ngIf="selectedBook" (click)="updateBook(bookTitle.value)">Modificar Libro</button>
+    <button *ngIf="!selectedBook" (click)="addBook(bookTitle.value)">Agregar Libro</button>
+    <button *ngIf="selectedBook" (click)="clearSelection()">Cancelar</button>
+  </div>
+  <div class="book-grid">
+    <div class="book-item" *ngFor="let book of books">
+      <img [src]="book.imageUrl" alt="{{book.title}}">
+      <div class="actions">
+        <button (click)="selectBook(book)">Modificar</button>
+        <button (click)="deleteBook(book.title)">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

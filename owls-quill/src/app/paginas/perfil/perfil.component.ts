@@ -33,4 +33,8 @@ export class PerfilComponent implements OnInit {
     });
   }
 
+  logout(){
+    this.authService.logout();
+  }
+
 }
