@@ -22,10 +22,10 @@
     }
 }
 
-.testimonials {
-    text-align: center;
+.features, .testimonials, .events, .about {
     padding: 40px;
-    background-color: #f9f9f9; // Light background for the section
+    background-color: #f9f9f9;
+    text-align: center;
 
     h2 {
         color: #333;
@@ -36,49 +36,71 @@
         color: #666;
         margin-top: 10px;
     }
+}
 
-    .testimonial-container {
+.features-container, .testimonial-container, .events-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.feature-card, .testimonial-card, .event-card {
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px; // Fixed width for each card
+
+    img {
+        width: 100%;
+        border-radius: 8px;
+    }
+}
+
+.testimonial-card {
+    .testimonial-quote {
+        font-style: italic;
+        color: #555;
+        margin-bottom: 20px;
+    }
+
+    .testimonial-author {
         display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-top: 20px;
+        align-items: center;
 
-        .testimonial-card {
-            background: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            padding: 20px;
-            width: 300px; // Fixed width for each card
-
-            .testimonial-quote {
-                font-style: italic;
-                color: #555;
-                margin-bottom: 20px;
-            }
-
-            .testimonial-author {
-                display: flex;
-                align-items: center;
-
-                img {
-                    width: 50px;
-                    height: 50px;
-                    border-radius: 50%;
-                    object-fit: cover; // Ensures the image covers the area without distorting
-                    object-position: center; // Centers the image within the element
-                    margin-right: 10px;
-                }
-
-                .author-name {
-                    font-weight: bold;
-                    color: #333;
-                }
-
-                .author-description {
-                    color: #666;
-                    font-size: 14px;
-                }
-            }
+        img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover; // Ensures the image covers the area without distorting
+            object-position: center; // Centers the image within the element
+            margin-right: 10px;
         }
+
+        .author-name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .author-description {
+            color: #666;
+            font-size: 14px;
+        }
+    }
+}
+
+.event-card {
+    .event-date, .event-location {
+        font-style: italic;
+        color: #555;
+    }
+}
+
+.about {
+    img {
+        width: 100%;
+        border-radius: 8px;
+        margin-top: 20px;
     }
 }
