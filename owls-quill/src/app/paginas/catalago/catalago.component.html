@@ -6,18 +6,18 @@
     </div>
   </div>
   <div class="add-book-form">
-    <input type="text" #bookTitle placeholder="Título del libro" [value]="selectedBook?.title || ''">
-    <input type="file" (change)="onFileSelected($event)">
-    <button *ngIf="selectedBook" (click)="updateBook(bookTitle.value)">Modificar Libro</button>
-    <button *ngIf="!selectedBook" (click)="addBook(bookTitle.value)">Agregar Libro</button>
-    <button *ngIf="selectedBook" (click)="clearSelection()">Cancelar</button>
+    <input type="text" [(ngModel)]="newBook.title" placeholder="Título del libro">
+    <input type="file" accept=".png, .jpg, .jpeg" (change)="cargarImagen($event)" class="inFile" id="inFile">
+    <label for="inFile">Subir portada</label>
+    <button (click)="guardarCambios()">Guardar Cambios</button>
+    <button (click)="agregarLibro()">Agregar Libro</button>
   </div>
   <div class="book-grid">
     <div class="book-item" *ngFor="let book of books">
-      <img [src]="book.imageUrl" alt="{{book.title}}">
+      <img [src]="book.coverUrl">
       <div class="actions">
-        <button (click)="selectBook(book)">Modificar</button>
-        <button (click)="deleteBook(book.title)">Eliminar</button>
+        <button (click)="modificarLibro(book)">Modificar</button>
+        <button (click)="eliminarLibro(book.id)">Eliminar</button>
       </div>
     </div>
   </div>

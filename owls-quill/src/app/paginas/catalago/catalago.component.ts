@@ -1,82 +1,76 @@
 import { Component } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { finalize } from 'rxjs/operators';
+import { StorageService } from '../../services/storage.service';
+import { Book } from '../../models/book.model';
+import { BookService } from '../../services/book.service';
+import { FormsModule } from '@angular/forms';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-catalago',
   templateUrl: './catalago.component.html',
-  styleUrls: ['./catalago.component.scss']
+  styleUrls: ['./catalago.component.scss'],
+  imports:[FormsModule, CommonModule],
+  standalone: true
 })
 export class CatalagoComponent {
-  selectedBook: any;
-  books = [];
+
+  books: Book[] = [];
+  newBook: Book = { title: '', coverUrl: '' };
   selectedFile: File | null = null;
-  downloadURL: string = '';
 
-  constructor(private storage: AngularFireStorage) { }
-  onFileSelected(event: Event) {
-    const target = event.target as HTMLInputElement;
-    if (target && target.files && target.files.length > 0) {
-      this.selectedFile = target.files[0];
-    }
+  constructor(private bookService: BookService) { }
+
+  ngOnInit() {
+    this.loadBooks();
   }
 
+  loadBooks() {
+    this.bookService.getBooks().subscribe(books => {
+      this.books = books;
+    });
+  }
 
-  addBook(title: string) {
+  cargarImagen(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  agregarLibro() {
     if (this.selectedFile) {
-      const filePath = `covers/${this.selectedFile.name}`;
-      const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, this.selectedFile);
-
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe(url => {
-            this.downloadURL = url;
-            this.saveBookToDatabase(title, this.downloadURL);
-          });
-        })
-      ).subscribe();
+      const reader = new FileReader();
+      reader.onload = () => {
+        const coverUrl = reader.result as string;
+        this.newBook.coverUrl = coverUrl;
+        this.bookService.addBook(this.newBook).then(() => {
+          this.newBook = { title: '', coverUrl: '' };
+          this.selectedFile = null;
+          this.loadBooks();
+        });
+      };
+      reader.readAsDataURL(this.selectedFile);
     }
   }
 
-  updateBook(title: string) {
-    if (this.selectedFile) {
-      const filePath = `covers/${this.selectedFile.name}`;
-      const fileRef = this.storage.ref(filePath);
-      const task = this.storage.upload(filePath, this.selectedFile);
+  modificarLibro(book: Book) {
+    this.newBook = { ...book };
+  }
 
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe(url => {
-            this.downloadURL = url;
-            this.updateBookInDatabase(title, this.downloadURL);
-          });
-        })
-      ).subscribe();
-    } else {
-      this.updateBookInDatabase(title, this.selectedBook.imageUrl);
+  guardarCambios() {
+    this.bookService.updateBook(this.newBook).then(() => {
+      this.newBook = { title: '', coverUrl: '' };
+      this.loadBooks();
+    });
+  }
+
+
+  eliminarLibro(bookId: string | undefined) {
+    if (!bookId) {
+      console.error("Book ID is undefined");
+      return;
     }
+    this.bookService.deleteBook(bookId).then(() => {
+      this.loadBooks();
+    });
   }
-
-  saveBookToDatabase(title: string, imageUrl: string) {
-    // Implementar lógica para guardar el libro en la base de datos
-  }
-
-  updateBookInDatabase(title: string, imageUrl: string) {
-    // Implementar lógica para actualizar el libro en la base de datos
-  }
-
-  selectBook(book: any) {
-    this.selectedBook = book;
-  }
-
-  clearSelection() {
-    this.selectedBook = null;
-    this.selectedFile = null;
-  }
-
-  deleteBook(book: any) {
-    this.selectedBook = book;
-  }
-
 }

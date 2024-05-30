@@ -54,6 +54,20 @@
       margin-right: 10px;
     }
 
+    label{
+      padding: 10px 20px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+
+      &:last-child {
+        background-color: #6c757d;
+      }
+    }
+
     button {
       padding: 10px 20px;
       border: none;
@@ -110,4 +124,8 @@
       }
     }
   }
+}
+
+.inFile{
+  display: none;
 }

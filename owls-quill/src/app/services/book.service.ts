@@ -6,23 +6,23 @@ import { Book } from '../models/book.model';
   providedIn: 'root'
 })
 export class BookService {
-  private booksCollection = this.firestore.collection<Book>('books');
+  private collectionName = 'books';
 
-  constructor(private firestore: AngularFirestore) { }
+  constructor(private firestore: AngularFirestore) {}
 
   getBooks() {
-    return this.booksCollection.valueChanges({ idField: 'id' });
+    return this.firestore.collection<Book>(this.collectionName).valueChanges({ idField: 'id' });
   }
 
   addBook(book: Book) {
-    return this.booksCollection.add(book);
+    return this.firestore.collection<Book>(this.collectionName).add(book);
   }
 
   updateBook(book: Book) {
-    return this.booksCollection.doc(book.id).update(book);
+    return this.firestore.collection<Book>(this.collectionName).doc(book.id).update(book);
   }
 
   deleteBook(bookId: string) {
-    return this.booksCollection.doc(bookId).delete();
+    return this.firestore.collection<Book>(this.collectionName).doc(bookId).delete();
   }
 }

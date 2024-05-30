@@ -8,7 +8,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: "AIzaSyDjWocvmwpfcDFA6p8RfAbLT8my0SOtedw",
   authDomain: "owl-s-quill.firebaseapp.com",
   projectId: "owl-s-quill",
