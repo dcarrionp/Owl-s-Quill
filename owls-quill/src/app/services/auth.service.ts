@@ -11,19 +11,19 @@ export class AuthService {
 
   constructor() { }
 
-  setUser(user: any){
+  setUser(user: any) {
     this.user = user
   }
 
-  getUser(){
+  getUser() {
     return this.user
   }
 
-  setRole(role: any){
+  setRole(role: any) {
     this.status = role
   }
 
-  getStatus(){
+  getStatus() {
     return this.status
   }
 }

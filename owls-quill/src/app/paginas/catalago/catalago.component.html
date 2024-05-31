@@ -5,8 +5,8 @@
       <input type="text" placeholder="Buscar libros...">
     </div>
   </div>
-  <div class="add-book-form">
-    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" *ngIf="isAdmin()">
+  <div class="add-book-form" *ngIf="showAdminControls">
+    <form [formGroup]="formulario" (ngSubmit)="onSubmit()" >
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Nombre</label>
@@ -35,7 +35,7 @@
   <div class="book-grid">
     <div class="book-item" *ngFor="let libro of libros">
       <img [src]="libro.imagen">
-      <div class="actions">
+      <div class="actions" *ngIf="showAdminControls">
         <button (click)="edit(libro)">Modificar</button>
         <button (click)="delete(libro)">Eliminar</button>
       </div>

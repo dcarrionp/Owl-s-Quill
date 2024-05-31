@@ -22,12 +22,11 @@ export class AppComponent implements OnInit {
 
   showHeaderFooter: boolean = true;
 
-  userRole!: string;
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-
+    
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.showHeaderFooter = !['/login', '/registro'].includes(event.urlAfterRedirects);

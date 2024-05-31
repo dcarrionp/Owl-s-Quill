@@ -5,6 +5,7 @@ import Book from '../../models/book.model';
 import { CommonModule } from '@angular/common';
 import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref } from '@angular/fire/storage';
 import { AuthService } from '../../services/auth.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 
 
@@ -18,6 +19,7 @@ import { AuthService } from '../../services/auth.service';
 export class CatalagoComponent {
   authService = inject(AuthService);
   userRole!: string;
+  showAdminControls: boolean = true;
 
   images: string[];
   formulario: FormGroup;
@@ -25,8 +27,9 @@ export class CatalagoComponent {
   libroEnEdicion: Book | null = null;
 
   constructor(
-    private informacionService: InformacionService, 
-    private storage: Storage
+    private informacionService: InformacionService,
+    private storage: Storage,
+    private router: Router
   ) {
     this.formulario = new FormGroup({
       nombre: new FormControl(),
@@ -46,6 +49,14 @@ export class CatalagoComponent {
 
     this.authService.getStatus().subscribe((role: string) => {
       this.userRole = role;
+      this.showAdminControls = (role === 'admin'); // Mostrar controles de admin si el rol es admin
+    });
+
+    // Suscripción a los eventos de navegación para la lógica de mostrar controles de admin
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.showAdminControls = this.isAdmin();
+      }
     });
 
   }
