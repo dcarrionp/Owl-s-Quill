@@ -1,0 +1,60 @@
+.contenedor {
+    max-width: 120rem;
+    margin: 0 auto;
+  }
+  
+  /* GRID */
+  .libros {
+    text-align: center;
+    padding: 1rem;
+    background-color: #f3f3f3;
+    border-radius: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .libro {
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    max-width: 300px;
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .images {
+    background-color: #f0f0f0; 
+    padding: 1rem;
+    width: 200px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 1rem;
+  }
+  
+  .images img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 1rem;
+  }
+  
+  .info h4 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+  }
+  
+  .info p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
+  
+  .info h5 {
+    font-size: 1.1rem;
+    color: #4a90e2; /* Azul */
+    margin: 0.5rem 0;
+  }
+  

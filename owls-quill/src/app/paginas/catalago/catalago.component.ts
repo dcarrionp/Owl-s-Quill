@@ -1,11 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InformacionService } from '../../services/informacion.service';
 import Book from '../../models/book.model';
 import { CommonModule } from '@angular/common';
 import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref } from '@angular/fire/storage';
-import { AuthService } from '../../services/auth.service';
-import { NavigationEnd, Router } from '@angular/router';
 
 
 
@@ -17,19 +15,14 @@ import { NavigationEnd, Router } from '@angular/router';
   standalone: true
 })
 export class CatalagoComponent {
-  authService = inject(AuthService);
-  userRole!: string;
-  showAdminControls: boolean = true;
-
   images: string[];
   formulario: FormGroup;
   libros!: Book[];
   libroEnEdicion: Book | null = null;
 
   constructor(
-    private informacionService: InformacionService,
-    private storage: Storage,
-    private router: Router
+    private informacionService: InformacionService, 
+    private storage: Storage
   ) {
     this.formulario = new FormGroup({
       nombre: new FormControl(),
@@ -46,27 +39,6 @@ export class CatalagoComponent {
     });
 
     this.getImages();
-
-    this.authService.getStatus().subscribe((role: string) => {
-      this.userRole = role;
-      this.showAdminControls = (role === 'admin'); // Mostrar controles de admin si el rol es admin
-    });
-
-    // Suscripción a los eventos de navegación para la lógica de mostrar controles de admin
-    this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.showAdminControls = this.isAdmin();
-      }
-    });
-
-  }
-
-  isAdmin(): boolean {
-    return this.userRole === 'admin';
-  }
-
-  isClient(): boolean {
-    return this.userRole === 'common';
   }
 
   async onSubmit() {

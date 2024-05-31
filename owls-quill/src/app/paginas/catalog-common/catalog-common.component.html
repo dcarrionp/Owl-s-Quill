@@ -1,0 +1,15 @@
+<main class="contenedor">
+    <h1>CATALOGO</h1>
+    <div class="libros">
+        <div class="libro" *ngFor="let libro of libros">
+            <div class="images">
+                <img [src]="libro.imagen" alt="{{libro.nombre}}">
+            </div>
+            <div class="info">
+                <h4>{{libro.nombre}}</h4>
+                <p>Autor: {{libro.autor}}</p>
+                <h5>$ {{libro.precio}}</h5>
+            </div>
+        </div>
+    </div>
+</main>
