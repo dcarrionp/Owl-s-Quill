@@ -1,76 +1,135 @@
-import { Component } from '@angular/core';
-import { StorageService } from '../../services/storage.service';
-import { Book } from '../../models/book.model';
-import { BookService } from '../../services/book.service';
-import { FormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { InformacionService } from '../../services/informacion.service';
+import Book from '../../models/book.model';
 import { CommonModule } from '@angular/common';
+import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref } from '@angular/fire/storage';
+import { AuthService } from '../../services/auth.service';
+
 
 
 @Component({
   selector: 'app-catalago',
   templateUrl: './catalago.component.html',
   styleUrls: ['./catalago.component.scss'],
-  imports:[FormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule],
   standalone: true
 })
 export class CatalagoComponent {
+  authService = inject(AuthService);
+  userRole!: string;
 
-  books: Book[] = [];
-  newBook: Book = { title: '', coverUrl: '' };
-  selectedFile: File | null = null;
+  images: string[];
+  formulario: FormGroup;
+  libros!: Book[];
+  libroEnEdicion: Book | null = null;
 
-  constructor(private bookService: BookService) { }
-
-  ngOnInit() {
-    this.loadBooks();
-  }
-
-  loadBooks() {
-    this.bookService.getBooks().subscribe(books => {
-      this.books = books;
+  constructor(
+    private informacionService: InformacionService, 
+    private storage: Storage
+  ) {
+    this.formulario = new FormGroup({
+      nombre: new FormControl(),
+      precio: new FormControl(),
+      autor: new FormControl(),
+      imagen: new FormControl()
     });
+    this.images = [];
   }
 
-  cargarImagen(event: any) {
-    this.selectedFile = event.target.files[0];
+  ngOnInit(): void {
+    this.informacionService.getLibros().subscribe(libros => {
+      this.libros = libros;
+    });
+
+    this.getImages();
+
+    this.authService.getStatus().subscribe((role: string) => {
+      this.userRole = role;
+    });
+
   }
 
-  agregarLibro() {
-    if (this.selectedFile) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const coverUrl = reader.result as string;
-        this.newBook.coverUrl = coverUrl;
-        this.bookService.addBook(this.newBook).then(() => {
-          this.newBook = { title: '', coverUrl: '' };
-          this.selectedFile = null;
-          this.loadBooks();
-        });
-      };
-      reader.readAsDataURL(this.selectedFile);
+  isAdmin(): boolean {
+    return this.userRole === 'admin';
+  }
+
+  isClient(): boolean {
+    return this.userRole === 'common';
+  }
+
+  async onSubmit() {
+    const libro: Book = {
+      nombre: this.formulario.get('nombre')?.value,
+      precio: this.formulario.get('precio')?.value,
+      autor: this.formulario.get('autor')?.value,
+      imagen: this.formulario.get('imagen')?.value
+    };
+
+    if (this.libroEnEdicion) {
+      // Actualizar libro existente
+      libro.id = this.libroEnEdicion.id;
+      const response = await this.informacionService.updateLibro(libro);
+      console.log(response);
+    } else {
+      // Crear nuevo libro
+      const response = await this.informacionService.addLibro(libro);
+      console.log(response);
+    }
+
+    this.formulario.reset();
+    this.libroEnEdicion = null; // Reiniciar el libro en edición
+    this.getImages();
+  }
+
+  async delete(libro: Book) {
+    const response = await this.informacionService.deleteLibro(libro);
+    console.log(response);
+
+    if (libro.imagen) {
+      const imgRef = ref(this.storage, libro.imagen);
+      await deleteObject(imgRef)
+        .then(() => console.log("Imagen eliminada de Firebase Storage"))
+        .catch(error => console.log("Error al eliminar la imagen de Firebase Storage", error));
     }
   }
 
-  modificarLibro(book: Book) {
-    this.newBook = { ...book };
+  uploadImage($event: any) {
+    const file = $event.target.files[0];
+    console.log(file);
+
+    const imgRef = ref(this.storage, `images/${file.name}`);
+
+    uploadBytes(imgRef, file)
+      .then(async response => {
+        console.log(response);
+        const url = await getDownloadURL(imgRef);
+        this.formulario.patchValue({ imagen: url }); // Actualizar el valor del control 'imagen' en el formulario
+      })
+      .catch(error => console.log(error));
   }
 
-  guardarCambios() {
-    this.bookService.updateBook(this.newBook).then(() => {
-      this.newBook = { title: '', coverUrl: '' };
-      this.loadBooks();
-    });
+  getImages() {
+    const imagesRef = ref(this.storage, 'images');
+    listAll(imagesRef)
+      .then(async response => {
+        console.log(response);
+        this.images = [];
+        for (let item of response.items) { // Recorrer y obtener los items
+          const url = await getDownloadURL(item);
+          this.images.push(url);
+        }
+      })
+      .catch(error => console.log(error));
   }
 
-
-  eliminarLibro(bookId: string | undefined) {
-    if (!bookId) {
-      console.error("Book ID is undefined");
-      return;
-    }
-    this.bookService.deleteBook(bookId).then(() => {
-      this.loadBooks();
+  edit(libro: Book) {
+    this.libroEnEdicion = libro;
+    this.formulario.patchValue({
+      nombre: libro.nombre,
+      precio: libro.precio,
+      autor: libro.autor,
+      imagen: libro.imagen
     });
   }
 }

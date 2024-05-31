@@ -1,46 +1,62 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { user } from '../../domain/user.interface';
 import { AuthService } from '../../services/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [FormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 
-  fb = inject(FormBuilder);
-  //http = inject(HttpClient);
-  authService = inject(AuthService);
-  router = inject(Router);
 
-  form = this.fb.nonNullable.group({
-    username: ['', Validators.required],
-    email: ['', Validators.required],
-    password: ['', Validators.required],
-    cpassword: ['', Validators.required],
-  });
+  user: user = new user()
 
-  errorMessage: string | null = null;
+  constructor(private userService: UserService, private router: Router, private authService: AuthService) { }
 
-  onSubmit() {
-    const rawForm = this.form.getRawValue();
-    this.authService.login(
-      rawForm.email, 
-      rawForm.password
-    ).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/home')
-      },
-      error: (err) => {
-        this.errorMessage = err.code;
-      },
-    });
+  loginWithGoogle() {
+
+    this.userService.loginGoogle().
+      then(response => {
+
+        console.log(response)
+        this.authService.setUser(response.user)
+        this.router.navigate(['/home'])
+
+      }).catch(error => console.log(error.code))
+  }
+
+  login() {
+    this.userService.login(this.user.email, this.user.password).
+      then(response => {
+
+        console.log(response)
+        this.authService.setUser(response.user)
+        this.router.navigate(['/home'])
+
+      }).catch(error => {
+        console.log(error.code)
+        if (error.code === 'auth/missing-email') {
+          alert('Ingrese su email')
+        }
+        if (error.code === 'auth/missing-password') {
+          alert('Ingrese su contraseña')
+        }
+        if (error.code === 'auth/invalid-credential') {
+          alert('Correo o contraseña incorrectos')
+        }
+        if (error.code === 'auth/invalid-email') {
+          alert('El email ingresado no es valido')
+        }
+        if (error.code === 'auth/too-many-requests') {
+          alert('Excedio el limite de intentos de inicio de sesion')
+        }
+      })
   }
 
 }

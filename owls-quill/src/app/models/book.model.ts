@@ -1,6 +1,8 @@
 // book.model.ts
-export interface Book {
+export default interface Book {
   id?: string;
-  title: string;
-  coverUrl: string;
+  nombre: string;
+  precio: string;
+  autor: string;
+  imagen: string;
 }

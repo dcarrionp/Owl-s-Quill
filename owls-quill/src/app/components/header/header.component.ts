@@ -14,7 +14,4 @@ export class HeaderComponent {
 
   authService = inject(AuthService);
 
-  logout(): void {
-    this.authService.logout();
-  }
 }

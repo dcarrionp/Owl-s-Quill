@@ -1,46 +1,71 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, FormsModule, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { UserService } from '../../services/user.service';
+import { FormsModule } from '@angular/forms';
+import { user } from '../../domain/user.interface';
+import { Router, RouterLink } from '@angular/router';
+import { updateProfile } from 'firebase/auth';
 import { AuthService } from '../../services/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './registro.component.html',
   styleUrls: ['./registro.component.scss']
 })
 export class RegistroComponent {
 
-  fb = inject(FormBuilder);
-  //http = inject(HttpClient);
-  authService = inject(AuthService);
-  router = inject(Router);
+  user: user = new user()
+  cpassword: any
 
-  form = this.fb.nonNullable.group({
-    name: ['', Validators.required],
-    username: ['', Validators.required],
-    email: ['', Validators.required],
-    password: ['', Validators.required],
-    cpassword: ['', Validators.required],
-  });
+  userF: any
 
-  errorMessage: string | null = null;
+  constructor(private userService: UserService, private router: Router, private authService: AuthService){}
 
-  onSubmit() {
-    const rawForm = this.form.getRawValue();
-    if (rawForm.password !== rawForm.cpassword) {
-      console.error('Passwords do not match');
-      return;
+  validarPassword(): boolean{
+    if(this.user.email === undefined && this.user.password === undefined && this.cpassword === undefined){
+      return false
+    }else{
+      return this.user.password === this.cpassword
     }
-    this.authService.register(rawForm.email, rawForm.password).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/RegForm')
-      },
-      error: (err) => {
-        this.errorMessage = err.code;
-      },
-    });
   }
-}
+
+  register(){
+    if(this.validarPassword()){
+
+      this.userService.register(this.user.email, this.user.password).
+      then(response => {
+
+        console.log(response)
+        this.userF = response.user
+        console.log('usuario: ',this.userF)
+        this.authService.setUser(this.userF)
+        this.router.navigate(['userinfo'])
+
+      }).catch(error => {
+        console.log(error)
+        if(error.code === 'auth/email-already-in-use'){
+          alert('El correo ya esta en uso')
+          this.router.navigate(['login'])
+        }
+        if(error.code === 'auth/missing-password'){
+          alert('Ingrese una contraseña')
+        }
+        if(error.code === 'auth/invalid-email'){
+          alert('El email ingresado no es valido')
+        }
+      })
+    }
+  }
+
+  loginGoogle(){
+    this.userService.loginGoogle().
+    then(response => {
+      console.log(response)
+      console.log('usuario: ',response.user)
+      this.authService.setUser(response.user)
+      this.router.navigate(['/home'])
+    }).catch(error => {
+      console.log(error.code)
+    })
+  }}

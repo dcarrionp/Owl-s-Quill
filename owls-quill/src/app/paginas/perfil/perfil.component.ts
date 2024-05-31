@@ -1,40 +1,47 @@
-import { AuthService } from '../../services/auth.service';
-import { Component, OnInit, computed, effect, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Component } from '@angular/core';
+import { Auth } from '@angular/fire/auth';
+import { Router, RouterLink } from '@angular/router';
+import { UserService } from '../../services/user.service';
+import { onAuthStateChanged } from 'firebase/auth';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [RouterLink],
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.scss']
 })
-export class PerfilComponent implements OnInit {
-  profileForm: FormGroup;
-  user$ = this.authService.user$;
+export class PerfilComponent {
+  constructor(private auth: Auth,
+    private userService: UserService,
+    private router: Router) { }
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
-    this.profileForm = this.fb.group({
-      username: [''],
-      email: ['']
-    });
-  }
+  displayName = this.auth.currentUser?.displayName
+  email = this.auth.currentUser?.email
+  photoURL = this.auth.currentUser?.photoURL
 
-  ngOnInit(): void {
-    this.user$.subscribe(user => {
+  ngOnInit() {
+    onAuthStateChanged(this.auth, async (user) => {
+      console.log(user?.photoURL)
       if (user) {
-        this.profileForm.patchValue({
-          username: user.displayName || '',
-          email: user.email || ''
-        });
+        this.displayName = user.displayName
+        this.email = user.email
+        this.photoURL = user.photoURL
+        if (user.photoURL === null) {
+          this.photoURL = '/assets/user-photo.png'
+        }
       }
-    });
+    })
   }
 
-  logout(){
-    this.authService.logout();
+  logout() {
+    this.userService.logOut().
+      then(response => {
+        this.router.navigate(['/login'])
+        alert('Se cerro correctamente la sesion')
+      })
+
   }
 
 }

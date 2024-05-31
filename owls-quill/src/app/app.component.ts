@@ -16,39 +16,27 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
 
-  authService= inject(AuthService);
+  authService = inject(AuthService);
 
   showHeaderFooter: boolean = true;
+
+  userRole!: string;
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    this.authService.user$.subscribe(user =>{
-      if (user){
-        this.authService.currentUserSig.set({
-          email: user.email!,
-          username: user.displayName!,
-          name: user.displayName!
-        })
-      }else {
-        this.authService.currentUserSig.set(null);
-      }
-      console.log(this.authService.currentUserSig())
-    })
 
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.showHeaderFooter = !['/login', '/registro'].includes(event.urlAfterRedirects);
       }
     });
+
   }
 
-  logout(): void {
-    this.authService.logout();
-  }
-  
 
   title = 'owls-quill';
+  user = this.authService.getUser()
 }

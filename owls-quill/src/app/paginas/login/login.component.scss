@@ -71,26 +71,6 @@
                 margin: 0 10px;
                 color: #999;
             }
-
-            .signup-btn {
-                padding: 10px;
-                background-color: transparent;
-                color: #333;
-                border: 1px solid #333;
-                border-radius: 5px;
-                font-size: 16px;
-                cursor: pointer;
-                transition: background-color 0.3s, color 0.3s;
-
-                &:hover {
-                    background-color: #333;
-                    color: #fff;
-                }
-
-                i {
-                    margin-right: 5px;
-                }
-            }
         }
 
         .register-link {
@@ -101,6 +81,25 @@
                 color: #007bff;
                 text-decoration: none;
             }
+        }
+    }
+    .btn-google{
+        padding: 10px;
+        background-color: transparent;
+        color: #333;
+        border: 1px solid #333;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    
+        &:hover {
+            background-color: #333;
+            color: #fff;
+        }
+    
+        i {
+            margin-right: 5px;
         }
     }
 }
