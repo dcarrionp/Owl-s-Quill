@@ -1,0 +1,121 @@
+.reservation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto;
+    
+    .image-container {
+        width: 100%;
+        img {
+            width: 100%;
+            border-radius: 10px;
+        }
+    }
+
+    .form-container {
+        width: 100%;
+        margin-top: 20px;
+
+        h2 {
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                label {
+                    color: #666;
+                    margin-bottom: 5px;
+                }
+                input {
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                }
+                p {
+                    margin-top: 10px;
+                    font-size: 1rem;
+                    color: #666;
+                }
+            }
+            .reserve-btn {
+                background-color: #333;
+                color: #fff;
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                font-size: 1rem;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+
+                &:hover {
+                    background-color: #555;
+                }
+            }
+        }
+    }
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1024px) {
+    .reservation-container {
+        max-width: 80%;
+    }
+}
+
+@media (max-width: 768px) {
+    .reservation-container {
+        padding: 20px;
+
+        h2 {
+            font-size: 20px;
+        }
+
+        .form-group {
+            label {
+                font-size: 1rem;
+            }
+            input {
+                font-size: 1rem;
+            }
+        }
+
+        .reserve-btn {
+            font-size: 0.9rem;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .reservation-container {
+        padding: 10px;
+
+        h2 {
+            font-size: 18px;
+        }
+
+        .form-group {
+            label {
+                font-size: 0.9rem;
+            }
+            input {
+                font-size: 0.9rem;
+            }
+        }
+
+        .reserve-btn {
+            font-size: 0.8rem;
+        }
+    }
+}
