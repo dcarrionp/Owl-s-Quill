@@ -1,5 +1,9 @@
 <main class="contenedor">
     <h1>CATALOGO</h1>
+    <div class="search-container">
+        <button class="category-button">Categorías</button>
+        <input type="text" placeholder="Buscar" class="search-input">
+    </div>
     <div class="libros">
         <div class="libro" *ngFor="let libro of libros">
             <div class="images">
@@ -10,6 +14,7 @@
                 <p>Autor: {{libro.autor}}</p>
                 <h5>$ {{libro.precio}}</h5>
             </div>
+            <button class="btn-reservar"><i class="fas fa-pencil-alt"></i>Reservar</button>
         </div>
     </div>
 </main>
