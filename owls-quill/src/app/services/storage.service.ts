@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import 'firebase/compat/storage';
-import { environment } from '../environments/environment';
+import { environment } from '../enviroments/enviroment';
 import { Firestore } from 'firebase/firestore';
 import firebase from 'firebase/compat';
 

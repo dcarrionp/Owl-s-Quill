@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
 import Book from '../models/book.model';
 import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InformacionService {
-  constructor(private firestore: Firestore) { }
+  constructor(private firestore: Firestore, private http: HttpClient) { }
 
   addLibro(libro: Book) {
     const libroRef = collection(this.firestore, 'libros');

@@ -8,6 +8,7 @@ import { SettingsComponent } from './paginas/settings/settings.component';
 import { CatalogCommonComponent } from './paginas/catalog-common/catalog-common.component';
 import { ReservaComponent } from './paginas/reserva/reserva.component';
 import { HistorialComponent } from './paginas/historial/historial.component';
+import { AuthGuard } from './auth.guard';
 
 
 export const routes: Routes = [
@@ -20,5 +21,5 @@ export const routes: Routes = [
     { path: "perfil/settings", component: SettingsComponent },
     { path: "client", component:CatalogCommonComponent},
     { path:"reserva", component: ReservaComponent},
-    { path:"historial", component: HistorialComponent}
+    { path:"historial", component: HistorialComponent, canActivate: [AuthGuard]}
 ];
