@@ -21,5 +21,5 @@ export const routes: Routes = [
     { path: "perfil/settings", component: SettingsComponent },
     { path: "client", component:CatalogCommonComponent},
     { path:"reserva", component: ReservaComponent},
-    { path:"historial", component: HistorialComponent, canActivate: [AuthGuard]}
+    { path:"historial", component: HistorialComponent}
 ];

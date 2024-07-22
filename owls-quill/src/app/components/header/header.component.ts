@@ -19,61 +19,65 @@ export class HeaderComponent {
 
   role: string | null = null;
 
-
   constructor(private auth: Auth, private userServices: UserService){}
 
   ngOnInit(){
-    const loggetOutLink = document.getElementById('logout')
-    const loggetInLink = document.getElementById('login')
-    const adminLink = document.getElementById('admin')
-    const commonLink = document.getElementById('common')
+    const loggetOutLink = document.getElementById('logout');
+    const loggetInLink = document.getElementById('login');
+    const adminCatalogoLink = document.getElementById('catalogo-admin');
+    const commonCatalogoLink = document.getElementById('catalogo-common');
+    const adminHistorialLink = document.getElementById('historial-admin');
 
     onAuthStateChanged(this.auth, async (user) => {
-      console.log('usuario xd: ',user)
+      console.log('usuario xd: ', user);
       if(this.auth.currentUser?.email){
         this.userServices.getRoleByEmail(this.auth.currentUser.email).subscribe(
           role => {
-            console.log('Rol: ', role)
-            if(adminLink && commonLink){
+            console.log('Rol: ', role);
+            if(adminCatalogoLink && commonCatalogoLink && adminHistorialLink){
               if(role === 'admin'){
-                adminLink.style.display='block'
-                commonLink.style.display='none'
+                adminCatalogoLink.style.display = 'block';
+                commonCatalogoLink.style.display = 'none';
+                adminHistorialLink.style.display = 'block';
               }else{
-                adminLink.style.display='none'
-                commonLink.style.display='block'
+                adminCatalogoLink.style.display = 'none';
+                commonCatalogoLink.style.display = 'block';
+                adminHistorialLink.style.display = 'none';
               }
             }
           },
           error => {
             console.error('Error fetching role', error);
             this.role = null;
-            if(adminLink && commonLink){
-              adminLink.style.display='none'
-              commonLink.style.display='block'
+            if(adminCatalogoLink && commonCatalogoLink && adminHistorialLink){
+              adminCatalogoLink.style.display = 'none';
+              commonCatalogoLink.style.display = 'block';
+              adminHistorialLink.style.display = 'none';
             }
           }
         );
       }else{
-        if(adminLink && commonLink){
-          adminLink.style.display='none'
-          commonLink.style.display='block'
+        if(adminCatalogoLink && commonCatalogoLink && adminHistorialLink){
+          adminCatalogoLink.style.display = 'none';
+          commonCatalogoLink.style.display = 'block';
+          adminHistorialLink.style.display = 'none';
         }
       }
       
       if(user){
         if(loggetInLink && loggetOutLink){
-          loggetInLink.style.display = 'none'
-          loggetOutLink.style.display = 'block'
+          loggetInLink.style.display = 'none';
+          loggetOutLink.style.display = 'block';
         }
       }else{
         if(loggetInLink && loggetOutLink){
-          loggetOutLink.style.display = 'none'
-          loggetInLink.style.display = 'block'
+          loggetOutLink.style.display = 'none';
+          loggetInLink.style.display = 'block';
         }
       }      
     }, error => {
-      console.log('Error en el auth: ', error)
-    })
+      console.log('Error en el auth: ', error);
+    });
   }
 
 }
