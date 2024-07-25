@@ -2,7 +2,7 @@
 export default interface Book {
   id?: string;
   nombre: string;
-  precio: string;
   autor: string;
+  precio: number;
   imagen: string;
 }

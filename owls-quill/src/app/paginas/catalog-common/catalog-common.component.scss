@@ -1,6 +1,57 @@
 .contenedor {
   max-width: 120rem;
   margin: 0 auto;
+  padding: 2rem;
+
+  h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+}
+
+/* Date Picker Container */
+.date-picker-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  .date-picker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    label {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    .date-input {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  }
+
+  .generate-report-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    margin-top: 1rem;
+
+    &:hover {
+      background-color: #555;
+    }
+  }
 }
 
 /* GRID */
@@ -64,8 +115,37 @@
   align-items: center;
   justify-content: center;
   margin: 20px 0;
-  
-  .category-button {
+  gap: 10px;
+
+  a {
+    text-decoration: none;
+
+    .category-button {
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 1rem;
+
+      &:hover {
+        background-color: #555;
+      }
+    }
+  }
+
+  .search-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    font-size: 1rem;
+  }
+
+  .buscar {
     background-color: #333;
     color: #fff;
     border: none;
@@ -79,15 +159,53 @@
       background-color: #555;
     }
   }
+}
 
-  .search-input {
-    padding: 10px;
-    border: 1px solid #ccc;
+/* Dropdown Menu */
+.dropdown {
+  position: relative;
+  display: inline-block;
+
+  .dropdown-toggle {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
     border-radius: 5px;
-    margin-left: 10px;
-    width: 100%;
-    max-width: 400px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     font-size: 1rem;
+
+    &:hover {
+      background-color: #555;
+    }
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      padding: 10px;
+      text-align: left;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+
+    &.show {
+      display: block;
+    }
   }
 }
 
@@ -123,9 +241,10 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   max-width: 600px;
   margin: 0 auto;
-  
+
   .image-container {
     width: 100%;
+
     img {
       width: 100%;
       border-radius: 10px;
@@ -146,7 +265,7 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
-      
+
       .form-group {
         display: flex;
         flex-direction: column;
@@ -193,13 +312,19 @@
     flex-direction: column;
     align-items: stretch;
 
-    .category-button {
-      margin-bottom: 10px;
-      width: 100%;
+    a {
+      .category-button {
+        margin-bottom: 10px;
+        width: 100%;
+      }
     }
 
     .search-input {
       margin-left: 0;
+      width: 100%;
+    }
+
+    .buscar {
       width: 100%;
     }
   }
@@ -222,13 +347,20 @@
   .search-container {
     margin: 15px 0;
 
-    .category-button {
-      font-size: 0.9rem;
-      padding: 8px 16px;
+    a {
+      .category-button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
     }
 
     .search-input {
       font-size: 0.9rem;
+    }
+
+    .buscar {
+      font-size: 0.9rem;
+      padding: 8px 16px;
     }
   }
 
@@ -252,6 +384,7 @@
       label {
         font-size: 1rem;
       }
+
       input {
         font-size: 1rem;
       }
@@ -267,13 +400,20 @@
   .search-container {
     margin: 10px 0;
 
-    .category-button {
-      font-size: 0.8rem;
-      padding: 6px 12px;
+    a {
+      .category-button {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+      }
     }
 
     .search-input {
       font-size: 0.8rem;
+    }
+
+    .buscar {
+      font-size: 0.8rem;
+      padding: 6px 12px;
     }
   }
 
@@ -297,6 +437,7 @@
       label {
         font-size: 0.9rem;
       }
+
       input {
         font-size: 0.9rem;
       }

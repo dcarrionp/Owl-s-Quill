@@ -1,8 +1,9 @@
 <div class="catalog-container">
   <div class="header">
-    <h1>Catálogo</h1>
-    <div class="search-filter">
-      <input type="text" placeholder="Buscar libros...">
+    <h1>Administracion Catálogo</h1>
+    <div class="search-container">
+      <input type="text" placeholder="Buscar" class="search-input" (keyup.enter)="filtro()" [(ngModel)]="nombre">
+      <button class="buscar" (click)="filtro()">Buscar</button>
     </div>
   </div>
   <div class="add-book-form">

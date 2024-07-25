@@ -3,6 +3,7 @@ import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, updateDo
 import Book from '../models/book.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { enviroment } from '../enviroments/enviroment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,13 @@ export class InformacionService {
   }
 
   getLibros(): Observable<Book[]> {
-    const libroRef = collection(this.firestore, 'libros');
-    return collectionData(libroRef, { idField: 'id' }) as Observable<Book[]>;
+    let url = enviroment.WS_PATH + "/libros"
+    return this.http.get<any>(url)
+  }
+
+  getlibro(nombre: any): Observable<Book>{
+    let url = enviroment.WS_PATH + "/libros/"+ nombre
+    return this.http.get<any>(url)
   }
 
   deleteLibro(libro: Book) {

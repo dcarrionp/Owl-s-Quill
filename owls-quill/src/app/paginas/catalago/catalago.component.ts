@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InformacionService } from '../../services/informacion.service';
 import Book from '../../models/book.model';
 import { CommonModule } from '@angular/common';
@@ -11,7 +11,7 @@ import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref } from
   selector: 'app-catalago',
   templateUrl: './catalago.component.html',
   styleUrls: ['./catalago.component.scss'],
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, FormsModule],
   standalone: true
 })
 export class CatalagoComponent {
@@ -19,6 +19,11 @@ export class CatalagoComponent {
   formulario: FormGroup;
   libros!: Book[];
   libroEnEdicion: Book | null = null;
+  nombre: any
+  libro!: Book
+
+  categories: string[] = [];
+  dropdownOpen = false;
 
   constructor(
     private informacionService: InformacionService, 
@@ -39,6 +44,20 @@ export class CatalagoComponent {
     });
 
     this.getImages();
+  }
+
+  filtro() {
+    if (this.nombre === '' || this.nombre === undefined) {
+      console.log('vacio')
+      alert('Ingrese un nombre')
+    } else {
+      this.informacionService.getlibro(this.nombre).subscribe(libros => {
+        this.libro = libros
+        this.libros = []
+        this.libros.push(this.libro)
+        console.log(this.libros)
+      })
+    }
   }
 
   async onSubmit() {
