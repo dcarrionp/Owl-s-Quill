@@ -1,28 +1,18 @@
 <main class="contenedor">
-    <h1>HISTORIAL
-    </h1>
+    <h1>HISTORIAL</h1>
     <div class="date-picker-container">
-      <div class="date-picker">
-        <label for="startDate">Desde:</label>
-        <input type="date" id="startDate" class="date-input">
-      </div>
-      <div class="date-picker">
-        <label for="endDate">Hasta:</label>
-        <input type="date" id="endDate" class="date-input">
-      </div>
-      <button class="generate-report-button">Generar Reporte</button>
-      <button class="generate-report-button">Generar Reporte General</button>
-    </div>|
-    <div class="libros">
-        <div class="libro" *ngFor="let libro of libros">
-            <div class="images">
-                <img [src]="libro.imagen" alt="{{libro.nombre}}">
-            </div>
-            <div class="info">
-                <h4>{{libro.nombre}}</h4>
-                <p>Autor: {{libro.autor}}</p>
-                <h5>$ {{libro.precio}}</h5>
-            </div>
+        <div class="date-picker">
+            <label for="startDate">Desde:</label>
+            <input type="date" id="startDate" class="date-input">
         </div>
+        <div class="date-picker">
+            <label for="endDate">Hasta:</label>
+            <input type="date" id="endDate" class="date-input">
+        </div>
+        <button class="generate-report-button" (click)="generateReport()">Generar Reporte</button>
+        <button class="generate-report-button" (click)="generateGeneralReport()">Generar Reporte General</button>
+    </div>
+    <div class="libros" *ngIf="reportUrl">
+        <iframe [src]="reportUrl" width="100%" height="600px"></iframe>
     </div>
 </main>

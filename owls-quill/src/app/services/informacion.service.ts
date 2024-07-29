@@ -9,11 +9,13 @@ import { enviroment } from '../enviroments/enviroment';
   providedIn: 'root'
 })
 export class InformacionService {
+
+  private baseUrl: string = `${enviroment.WS_PATH}/libros`;
+
   constructor(private firestore: Firestore, private http: HttpClient) { }
 
   addLibro(libro: Book) {
-    const libroRef = collection(this.firestore, 'libros');
-    return addDoc(libroRef, libro);
+    return this.http.post<Book>(this.baseUrl, libro);
   }
 
   getLibros(): Observable<Book[]> {
@@ -26,18 +28,11 @@ export class InformacionService {
     return this.http.get<any>(url)
   }
 
-  deleteLibro(libro: Book) {
-    const libroDocRef = doc(this.firestore, `libros/${libro.id}`);
-    return deleteDoc(libroDocRef);
+  deleteLibro(nombre: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}?nombre=${encodeURIComponent(nombre)}`);
   }
 
-  updateLibro(libro: Book) {
-    const libroDocRef = doc(this.firestore, `libros/${libro.id}`);
-    return updateDoc(libroDocRef, {
-      nombre: libro.nombre,
-      precio: libro.precio,
-      autor: libro.autor,
-      imagen: libro.imagen
-    });
+  updateLibro(libro: Book): Observable<Book> {
+    return this.http.put<Book>(`${this.baseUrl}/${libro.id}`, libro);
   }
 }

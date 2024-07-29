@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import 'firebase/compat/storage';
-import { environment } from '../enviroments/enviroment';
+import { enviroment } from '../enviroments/enviroment';
 import { Firestore } from 'firebase/firestore';
 import firebase from 'firebase/compat';
 
 // Initialize Firebase App if not already initialized
-  firebase.initializeApp(environment.firebaseConfig);
+  firebase.initializeApp(enviroment.WS_PATH);
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
 
-  constructor( private firestore: Firestore) { }
+  /*constructor( private firestore: Firestore) { }
 
   storageRef = firebase.storage().ref();
 
@@ -25,5 +25,5 @@ export class StorageService {
       console.log(error);
       return null;
     }
-  }
+  }*/
 }

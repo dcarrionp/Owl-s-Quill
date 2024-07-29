@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InformacionService } from '../../services/informacion.service';
 import Book from '../../models/book.model';
 import { CommonModule } from '@angular/common';
-import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref } from '@angular/fire/storage';
-
-
+import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref, uploadBytesResumable } from '@angular/fire/storage';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-catalago',
@@ -14,124 +13,122 @@ import { Storage, getDownloadURL, uploadBytes, listAll, deleteObject, ref } from
   imports: [ReactiveFormsModule, CommonModule, FormsModule],
   standalone: true
 })
-export class CatalagoComponent {
-  images: string[];
+export class CatalagoComponent implements OnInit {
+  images: string[] = [];
   formulario: FormGroup;
-  libros!: Book[];
+  libros: Book[] = [];
   libroEnEdicion: Book | null = null;
-  nombre: any
-  libro!: Book
-
-  categories: string[] = [];
-  dropdownOpen = false;
+  nombre: string = '';
 
   constructor(
-    private informacionService: InformacionService, 
-    private storage: Storage
+    private informacionService: InformacionService,
+    private storage: Storage,
+    private fb: FormBuilder
   ) {
-    this.formulario = new FormGroup({
-      nombre: new FormControl(),
-      precio: new FormControl(),
-      autor: new FormControl(),
-      imagen: new FormControl()
+    this.formulario = this.fb.group({
+      nombre: ['', Validators.required],
+      precio: ['', Validators.required],
+      autor: ['', Validators.required],
+      imagen: ['']
     });
-    this.images = [];
   }
 
   ngOnInit(): void {
+    this.cargarLibros();
+  }
+
+  cargarLibros(): void {
     this.informacionService.getLibros().subscribe(libros => {
       this.libros = libros;
     });
-
-    this.getImages();
   }
 
-  filtro() {
-    if (this.nombre === '' || this.nombre === undefined) {
-      console.log('vacio')
-      alert('Ingrese un nombre')
+  filtro(): void {
+    if (!this.nombre) {
+      alert('Ingrese un nombre');
     } else {
-      this.informacionService.getlibro(this.nombre).subscribe(libros => {
-        this.libro = libros
-        this.libros = []
-        this.libros.push(this.libro)
-        console.log(this.libros)
-      })
+      this.informacionService.getlibro(this.nombre).subscribe(libro => {
+        this.libros = [libro];
+      });
     }
   }
 
-  async onSubmit() {
+  removeBook(libro: string): void {
+    this.informacionService.deleteLibro(libro).subscribe(() => {
+      this.cargarLibros();
+    });
+  }
+
+  async onSubmit(): Promise<void> {
+    if (this.formulario.invalid) {
+      return;
+    }
+
     const libro: Book = {
-      nombre: this.formulario.get('nombre')?.value,
-      precio: this.formulario.get('precio')?.value,
-      autor: this.formulario.get('autor')?.value,
-      imagen: this.formulario.get('imagen')?.value
+      ...this.formulario.value
     };
 
     if (this.libroEnEdicion) {
-      // Actualizar libro existente
       libro.id = this.libroEnEdicion.id;
-      const response = await this.informacionService.updateLibro(libro);
-      console.log(response);
+      if (this.formulario.value.imagen) {
+        const imageUrl = await this.uploadImage(this.formulario.value.imagen);
+        libro.imagen = imageUrl;
+      }
+      await this.informacionService.updateLibro(libro);
     } else {
-      // Crear nuevo libro
-      const response = await this.informacionService.addLibro(libro);
-      console.log(response);
+      if (this.formulario.value.imagen) {
+        const imageUrl = await this.uploadImage(this.formulario.value.imagen);
+        libro.imagen = imageUrl;
+      }
+      await this.informacionService.addLibro(libro);
     }
 
     this.formulario.reset();
-    this.libroEnEdicion = null; // Reiniciar el libro en edición
-    this.getImages();
+    this.libroEnEdicion = null;
+    this.cargarLibros();
   }
 
-  async delete(libro: Book) {
-    const response = await this.informacionService.deleteLibro(libro);
-    console.log(response);
+  uploadImage(event: any): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const file = event.target.files[0];
+      if (file) {
+        const storageRef = ref(this.storage, `images/${file.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
 
-    if (libro.imagen) {
-      const imgRef = ref(this.storage, libro.imagen);
-      await deleteObject(imgRef)
-        .then(() => console.log("Imagen eliminada de Firebase Storage"))
-        .catch(error => console.log("Error al eliminar la imagen de Firebase Storage", error));
-    }
-  }
-
-  uploadImage($event: any) {
-    const file = $event.target.files[0];
-    console.log(file);
-
-    const imgRef = ref(this.storage, `images/${file.name}`);
-
-    uploadBytes(imgRef, file)
-      .then(async response => {
-        console.log(response);
-        const url = await getDownloadURL(imgRef);
-        this.formulario.patchValue({ imagen: url }); // Actualizar el valor del control 'imagen' en el formulario
-      })
-      .catch(error => console.log(error));
-  }
-
-  getImages() {
-    const imagesRef = ref(this.storage, 'images');
-    listAll(imagesRef)
-      .then(async response => {
-        console.log(response);
-        this.images = [];
-        for (let item of response.items) { // Recorrer y obtener los items
-          const url = await getDownloadURL(item);
-          this.images.push(url);
-        }
-      })
-      .catch(error => console.log(error));
-  }
-
-  edit(libro: Book) {
-    this.libroEnEdicion = libro;
-    this.formulario.patchValue({
-      nombre: libro.nombre,
-      precio: libro.precio,
-      autor: libro.autor,
-      imagen: libro.imagen
+        uploadTask.on('state_changed',
+          (snapshot) => {
+            // Handle progress if needed
+          },
+          (error) => {
+            console.error(error);
+            reject(error);
+          },
+          () => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+              resolve(downloadURL);
+            });
+          }
+        );
+      } else {
+        reject('No file selected');
+      }
     });
+  }
+
+  edit(libro: Book): void {
+    this.libroEnEdicion = libro;
+    this.formulario.patchValue(libro);
+  }
+
+  delete(book: Book): void {
+    console.log('Attempting to delete book:', book);
+    if (book.nombre) {
+      this.informacionService.deleteLibro(book.nombre).subscribe(() => {
+        console.log('Book deleted successfully');
+        this.cargarLibros();
+      }, (error: any) => {
+        console.error('Error deleting book:', error);
+      });
+    }
   }
 }
