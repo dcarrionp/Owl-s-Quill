@@ -12,27 +12,49 @@ export class InformacionService {
 
   private baseUrl: string = `${enviroment.WS_PATH}/libros`;
 
-  constructor(private firestore: Firestore, private http: HttpClient) { }
+  constructor(private firestore: Firestore, private http: HttpClient) {}
 
   addLibro(libro: Book) {
-    return this.http.post<Book>(this.baseUrl, libro);
+    let url = enviroment.WS_PATH + "/libros";
+    return this.http.post<any>(url, libro);
   }
 
   getLibros(): Observable<Book[]> {
-    let url = enviroment.WS_PATH + "/libros"
-    return this.http.get<any>(url)
+    let url = enviroment.WS_PATH + "/libros";
+    return this.http.get<any>(url);
   }
 
-  getlibro(nombre: any): Observable<Book>{
-    let url = enviroment.WS_PATH + "/libros/"+ nombre
-    return this.http.get<any>(url)
+  getLibro(nombre: any): Observable<Book> {
+    let url = enviroment.WS_PATH + "/libros/" + nombre;
+    return this.http.get<any>(url);
   }
 
   deleteLibro(nombre: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}?nombre=${encodeURIComponent(nombre)}`);
+    return this.http.delete<void>(`${this.baseUrl}/${nombre}`);
   }
 
-  updateLibro(libro: Book): Observable<Book> {
-    return this.http.put<Book>(`${this.baseUrl}/${libro.id}`, libro);
+  updateLibro(libro: Book) {
+    const libroDocRef = doc(this.firestore, `libros/${libro.id}`);
+    return updateDoc(libroDocRef, {
+      nombre: libro.nombre,
+      precio: libro.precio,
+      autor: libro.autor,
+      imagen: libro.imagen
+    });
+  }
+
+  getLibrosPorAutor(autor: string): Observable<Book[]> {
+    let url = enviroment.WS_PATH + "/libros/autor/" + autor;
+    return this.http.get<Book[]>(url);
+  }
+
+  getLibrosPorCategoria(categoria: string): Observable<Book[]> {
+    let url = enviroment.WS_PATH + "/libros/categorias/" + categoria;
+    return this.http.get<Book[]>(url);
+  }
+
+  getLibrosPorDisponibilidad(disponibilidad: boolean): Observable<Book[]> {
+    let url = enviroment.WS_PATH + "/libros/disponibilidad/" + disponibilidad;
+    return this.http.get<Book[]>(url);
   }
 }

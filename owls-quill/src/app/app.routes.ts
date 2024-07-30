@@ -9,6 +9,7 @@ import { CatalogCommonComponent } from './paginas/catalog-common/catalog-common.
 import { ReservaComponent } from './paginas/reserva/reserva.component';
 import { HistorialComponent } from './paginas/historial/historial.component';
 import { AuthGuard } from './auth.guard';
+import { DevueltoComponent } from './paginas/devuelto/devuelto.component';
 
 
 export const routes: Routes = [
@@ -20,6 +21,8 @@ export const routes: Routes = [
     { path: "catalogo", component: CatalagoComponent },
     { path: "perfil/settings", component: SettingsComponent },
     { path: "client", component:CatalogCommonComponent},
-    { path:"reserva", component: ReservaComponent},
-    { path:"historial", component: HistorialComponent}
+    { path:"client/reserva", component: ReservaComponent},
+    { path:"historial", component: HistorialComponent},
+    { path:"reserva", component: ReservaComponent },
+    { path:"devuelto", component: DevueltoComponent}
 ];

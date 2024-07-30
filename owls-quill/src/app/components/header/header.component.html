@@ -1,3 +1,4 @@
+<!-- header.component.html -->
 <nav class="navbar">
   <div class="navbar-brand">
     <a routerLink="home">
@@ -6,10 +7,11 @@
   </div>
   <ul class="navbar-nav">
     <li class="nav-item"><a class="nav-link" routerLink="home">Inicio</a></li>
-    <li class="nav-item"><a class="nav-link" routerLink="catalogo" id="catalogo-admin">Catálogo Admin</a></li>
-    <li class="nav-item"><a class="nav-link" routerLink="client" id="catalogo-common">Catálogo</a></li>
-    <li class="nav-item"><a class="nav-link" routerLink="reserva" id="reserva">Reservar libro</a></li>
-    <li class="nav-item"><a class="nav-link" routerLink="historial" id="historial-admin">Historial</a></li>
+    <li class="nav-item"><a class="nav-link" routerLink="catalogo" id="admin" #admin>Catálogo Admin</a></li>
+    <li class="nav-item"><a class="nav-link" routerLink="client" id="common" #common>Catálogo</a></li>
+    <li class="nav-item"><a class="nav-link" routerLink="historial" id="historial-admin" #historialAdmin>Historial</a></li>
+    <li class="nav-item"><a class="nav-link" routerLink="devuelto" id="admin3" #admin3>Devuelto</a></li>
+    <li class="nav-item"><a class="nav-link" id="admin3" #admin3 routerLink="reserva">Reserva</a></li>
     <li class="nav-item"><a class="nav-link" routerLink="perfil">Perfil</a></li>
   </ul>
 </nav>

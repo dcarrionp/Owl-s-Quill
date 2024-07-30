@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { RouterLink } from '@angular/router';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -11,78 +11,79 @@ import { AppComponent } from '../../app.component';
   standalone: true,
   imports: [RouterLink, AppComponent],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
-
+export class HeaderComponent implements AfterViewInit {
   authService = inject(AuthService);
+
+  @ViewChild('logout') loggetOutLink!: ElementRef;
+  @ViewChild('login') loggetInLink!: ElementRef;
+  @ViewChild('admin') adminLink!: ElementRef;
+  @ViewChild('common') commonLink!: ElementRef;
+  @ViewChild('historialAdmin') historialAdminLink!: ElementRef;
+  @ViewChildren('admin3') adminLink3!: QueryList<ElementRef>; // Changed to @ViewChildren
 
   role: string | null = null;
 
-  constructor(private auth: Auth, private userServices: UserService){}
+  constructor(private auth: Auth, private userServices: UserService) { }
 
-  ngOnInit(){
-    const loggetOutLink = document.getElementById('logout');
-    const loggetInLink = document.getElementById('login');
-    const adminCatalogoLink = document.getElementById('catalogo-admin');
-    const commonCatalogoLink = document.getElementById('catalogo-common');
-    const adminHistorialLink = document.getElementById('historial-admin');
-    const reserva = document.getElementById('reserva');
-
+  ngAfterViewInit() {
     onAuthStateChanged(this.auth, async (user) => {
       console.log('usuario xd: ', user);
-      if(this.auth.currentUser?.email){
-        this.userServices.getRoleByEmail(this.auth.currentUser.email).subscribe(
+      if (user && user.email) {
+        this.userServices.getRoleByEmail(user.email).subscribe(
           role => {
-            console.log('Rol: ', role);
-            if(adminCatalogoLink && commonCatalogoLink && adminHistorialLink && reserva){
-              if(role === 'admin'){
-                adminCatalogoLink.style.display = 'block';
-                commonCatalogoLink.style.display = 'none';
-                adminHistorialLink.style.display = 'block';
-                reserva.style.display = 'none';
-              }else{
-                adminCatalogoLink.style.display = 'none';
-                commonCatalogoLink.style.display = 'block';
-                adminHistorialLink.style.display = 'none';
-                reserva.style.display = 'block';
+            console.log('Rol recibido: ', role); // Added logging
+            this.role = role;
+            if (this.adminLink && this.commonLink && this.historialAdminLink && this.adminLink3) {
+              if (role === 'admin') {
+                this.adminLink.nativeElement.style.display = 'block';
+                this.historialAdminLink.nativeElement.style.display = 'block';
+                this.commonLink.nativeElement.style.display = 'none';
+                this.adminLink3.forEach((link) => {
+                  link.nativeElement.style.display = 'block';
+                });
+              } else {
+                this.adminLink.nativeElement.style.display = 'none';
+                this.historialAdminLink.nativeElement.style.display = 'none';
+                this.commonLink.nativeElement.style.display = 'block';
+                this.adminLink3.forEach((link) => {
+                  link.nativeElement.style.display = 'none';
+                });
               }
             }
           },
           error => {
             console.error('Error fetching role', error);
             this.role = null;
-            if(adminCatalogoLink && commonCatalogoLink && adminHistorialLink && reserva){
-              adminCatalogoLink.style.display = 'none';
-              commonCatalogoLink.style.display = 'block';
-              adminHistorialLink.style.display = 'none';
-              reserva.style.display = 'block';
+            if (this.adminLink && this.commonLink && this.historialAdminLink) {
+              this.adminLink.nativeElement.style.display = 'none';
+              this.historialAdminLink.nativeElement.style.display = 'none';
+              this.commonLink.nativeElement.style.display = 'block';
             }
           }
         );
-      }else{
-        if(adminCatalogoLink && commonCatalogoLink && adminHistorialLink && reserva){
-          adminCatalogoLink.style.display = 'none';
-          commonCatalogoLink.style.display = 'block';
-          adminHistorialLink.style.display = 'none';
-          reserva.style.display = 'block';
+      } else {
+        if (this.adminLink && this.commonLink && this.historialAdminLink) {
+          this.adminLink.nativeElement.style.display = 'none';
+          this.historialAdminLink.nativeElement.style.display = 'none';
+          this.commonLink.nativeElement.style.display = 'block';
         }
       }
-      
-      if(user){
-        if(loggetInLink && loggetOutLink){
-          loggetInLink.style.display = 'none';
-          loggetOutLink.style.display = 'block';
+
+      if (user) {
+        if (this.loggetInLink && this.loggetOutLink) {
+          this.loggetInLink.nativeElement.style.display = 'none';
+          this.loggetOutLink.nativeElement.style.display = 'block';
         }
-      }else{
-        if(loggetInLink && loggetOutLink){
-          loggetOutLink.style.display = 'none';
-          loggetInLink.style.display = 'block';
+      } else {
+        if (this.loggetInLink && this.loggetOutLink) {
+          this.loggetOutLink.nativeElement.style.display = 'none';
+          this.loggetInLink.nativeElement.style.display = 'block';
         }
-      }      
+      }
     }, error => {
       console.log('Error en el auth: ', error);
     });
   }
-
 }

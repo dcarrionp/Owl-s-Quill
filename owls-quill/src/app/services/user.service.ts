@@ -5,6 +5,8 @@ import { addDoc, collection, deleteDoc, getDocs, query, where } from 'firebase/f
 import { from, Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { user } from '../domain/user.interface';
+import { enviroment } from '../enviroments/enviroment';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -16,7 +18,8 @@ export class UserService {
 
   constructor(
     private auth: Auth,
-    private firestore: Firestore
+    private firestore: Firestore,
+    private http: HttpClient
   ) { }
 
   register(email:any, pasword:any){
@@ -46,14 +49,10 @@ export class UserService {
     updateDoc(userRef,{email: email, role: newRole})
   }
 
-  getRoleByEmail(email: any): Observable<any> {
-    const usuariosRef = collection(this.firestore, 'usuarios');
-    const q = query(usuariosRef, where('email', '==', email));
-    return from(getDocs(q)).pipe(
-      map(querySnapshot => {
-        const doc = querySnapshot.docs[0];
-        return doc ? doc.data()['role'] as string : null; // Cambiado a notación de corchetes
-      })
+  getRoleByEmail(email: string | null): Observable<string> {
+    const url = `${enviroment.WS_PATH}/usuarios/${email}`;
+    return this.http.get<any>(url).pipe(
+      map(user => user.rol) // Ensure this matches the key in your response
     );
   }
 

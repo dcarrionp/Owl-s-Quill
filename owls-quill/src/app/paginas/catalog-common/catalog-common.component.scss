@@ -2,59 +2,62 @@
   max-width: 120rem;
   margin: 0 auto;
   padding: 2rem;
-
-  h1 {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 2rem;
-    color: #333;
-  }
 }
 
-/* Date Picker Container */
-.date-picker-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+.contenedor h1 {
+  text-align: center;
+  font-size: 2rem;
   margin-bottom: 2rem;
-
-  .date-picker {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-
-    label {
-      font-size: 1rem;
-      color: #666;
-    }
-
-    .date-input {
-      padding: 0.5rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-  }
-
-  .generate-report-button {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1rem;
-    margin-top: 1rem;
-
-    &:hover {
-      background-color: #555;
-    }
-  }
+  color: #333;
 }
 
-/* GRID */
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.search-container .category-button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.search-container .category-button:hover {
+  background-color: #555;
+}
+
+.search-container .search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
+  font-size: 1rem;
+}
+
+.search-container .buscar {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
+
+.search-container .buscar:hover {
+  background-color: #555;
+}
+
 .libros {
   text-align: center;
   padding: 1rem;
@@ -77,7 +80,7 @@
   justify-content: center;
 }
 
-.images {
+.libro .images {
   background-color: #f0f0f0;
   padding: 1rem;
   width: 200px;
@@ -86,127 +89,27 @@
   border-radius: 1rem;
 }
 
-.images img {
+.libro .images img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 1rem;
 }
 
-.info h4 {
+.libro .info h4 {
   font-size: 1.2rem;
   margin: 0.5rem 0;
 }
 
-.info p {
+.libro .info p {
   font-size: 1rem;
   margin: 0.5rem 0;
 }
 
-.info h5 {
+.libro .info h5 {
   font-size: 1.1rem;
   color: #4a90e2;
-  /* Azul */
   margin: 0.5rem 0;
-}
-
-.search-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 20px 0;
-  gap: 10px;
-
-  a {
-    text-decoration: none;
-
-    .category-button {
-      background-color: #333;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-size: 1rem;
-
-      &:hover {
-        background-color: #555;
-      }
-    }
-  }
-
-  .search-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 400px;
-    font-size: 1rem;
-  }
-
-  .buscar {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1rem;
-
-    &:hover {
-      background-color: #555;
-    }
-  }
-}
-
-/* Dropdown Menu */
-.dropdown {
-  position: relative;
-  display: inline-block;
-
-  .dropdown-toggle {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1rem;
-
-    &:hover {
-      background-color: #555;
-    }
-  }
-
-  .dropdown-menu {
-    display: none;
-    position: absolute;
-    background-color: #fff;
-    min-width: 160px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    z-index: 1;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-
-    li {
-      padding: 10px;
-      text-align: left;
-      cursor: pointer;
-
-      &:hover {
-        background-color: #f0f0f0;
-      }
-    }
-
-    &.show {
-      display: block;
-    }
-  }
 }
 
 .btn-reservar {
@@ -221,89 +124,14 @@
   gap: 5px;
   font-size: 1rem;
   transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #555;
-  }
-
-  i {
-    font-size: 1.2rem;
-  }
 }
 
-.reservation-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #f9f9f9;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin: 0 auto;
+.btn-reservar:hover {
+  background-color: #555;
+}
 
-  .image-container {
-    width: 100%;
-
-    img {
-      width: 100%;
-      border-radius: 10px;
-    }
-  }
-
-  .form-container {
-    width: 100%;
-    margin-top: 20px;
-
-    h2 {
-      color: #333;
-      font-size: 24px;
-      text-align: center;
-    }
-
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-
-      .form-group {
-        display: flex;
-        flex-direction: column;
-
-        label {
-          color: #666;
-          margin-bottom: 5px;
-        }
-
-        input {
-          padding: 10px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-        }
-
-        p {
-          margin-top: 10px;
-          font-size: 1rem;
-          color: #666;
-        }
-      }
-
-      .reserve-btn {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-
-        &:hover {
-          background-color: #555;
-        }
-      }
-    }
-  }
+.btn-reservar i {
+  font-size: 1.2rem;
 }
 
 /* Media Queries for Responsive Design */
@@ -311,140 +139,70 @@
   .search-container {
     flex-direction: column;
     align-items: stretch;
+  }
 
-    a {
-      .category-button {
-        margin-bottom: 10px;
-        width: 100%;
-      }
-    }
-
-    .search-input {
-      margin-left: 0;
-      width: 100%;
-    }
-
-    .buscar {
-      width: 100%;
-    }
+  .search-container .category-button,
+  .search-container .buscar {
+    margin-bottom: 10px;
+    width: 100%;
   }
 
   .btn-reservar {
     font-size: 0.9rem;
     padding: 8px 16px;
-
-    i {
-      font-size: 1rem;
-    }
   }
 
-  .reservation-container {
-    max-width: 80%;
+  .btn-reservar i {
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 768px) {
   .search-container {
     margin: 15px 0;
+  }
 
-    a {
-      .category-button {
-        font-size: 0.9rem;
-        padding: 8px 16px;
-      }
-    }
+  .search-container .category-button,
+  .search-container .buscar {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
 
-    .search-input {
-      font-size: 0.9rem;
-    }
-
-    .buscar {
-      font-size: 0.9rem;
-      padding: 8px 16px;
-    }
+  .search-container .search-input {
+    font-size: 0.9rem;
   }
 
   .btn-reservar {
     font-size: 0.8rem;
     padding: 8px 16px;
-
-    i {
-      font-size: 0.9rem;
-    }
   }
 
-  .reservation-container {
-    padding: 20px;
-
-    h2 {
-      font-size: 20px;
-    }
-
-    .form-group {
-      label {
-        font-size: 1rem;
-      }
-
-      input {
-        font-size: 1rem;
-      }
-    }
-
-    .reserve-btn {
-      font-size: 0.9rem;
-    }
+  .btn-reservar i {
+    font-size: 0.9rem;
   }
 }
 
 @media (max-width: 480px) {
   .search-container {
     margin: 10px 0;
+  }
 
-    a {
-      .category-button {
-        font-size: 0.8rem;
-        padding: 6px 12px;
-      }
-    }
+  .search-container .category-button,
+  .search-container .buscar {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
 
-    .search-input {
-      font-size: 0.8rem;
-    }
-
-    .buscar {
-      font-size: 0.8rem;
-      padding: 6px 12px;
-    }
+  .search-container .search-input {
+    font-size: 0.8rem;
   }
 
   .btn-reservar {
     font-size: 0.7rem;
     padding: 6px 12px;
-
-    i {
-      font-size: 0.8rem;
-    }
   }
 
-  .reservation-container {
-    padding: 10px;
-
-    h2 {
-      font-size: 18px;
-    }
-
-    .form-group {
-      label {
-        font-size: 0.9rem;
-      }
-
-      input {
-        font-size: 0.9rem;
-      }
-    }
-
-    .reserve-btn {
-      font-size: 0.8rem;
-    }
+  .btn-reservar i {
+    font-size: 0.8rem;
   }
 }

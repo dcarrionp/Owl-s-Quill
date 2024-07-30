@@ -2,6 +2,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import Book from '../../models/book.model';
+import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-reserva',
@@ -11,5 +13,5 @@ import Book from '../../models/book.model';
   styleUrl: './reserva.component.scss'
 })
 export class ReservaComponent {
-  @Input() libroSeleccionado!: Book;
+  
 }

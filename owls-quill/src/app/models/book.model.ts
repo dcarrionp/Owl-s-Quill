@@ -1,3 +1,5 @@
+import Categoria from "../domain/categoria";
+
 // book.model.ts
 export default interface Book {
   id?: number;
@@ -5,4 +7,7 @@ export default interface Book {
   autor: string;
   precio: number;
   imagen: string;
+
+  disponible: boolean;
+  categoria: Categoria;
 }
