@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, 
 import { InformacionService } from '../../services/informacion.service';
 import Book from '../../models/book.model';
 import { CommonModule } from '@angular/common';
-import { Storage, getDownloadURL, uploadBytes, listAll, ref } from '@angular/fire/storage';
+import { Storage, getDownloadURL, uploadBytes, listAll, ref, deleteObject } from '@angular/fire/storage';
 import Categoria from '../../domain/categoria';
 
 @Component({
@@ -45,7 +45,6 @@ export class CatalagoComponent implements OnInit {
     });
     this.images = [];
   }
-
   ngOnInit(): void {
     this.informacionService.getLibros().subscribe(libros => {
       this.libros = libros;
@@ -55,8 +54,65 @@ export class CatalagoComponent implements OnInit {
     });
 
     this.getImages();
-    this.initializeSearch();
   }
+
+  //Adding a new book
+
+  async onSubmit() {
+    const libro: Book = {
+      nombre: this.formulario.get('nombre')?.value,
+      precio: this.formulario.get('precio')?.value,
+      autor: this.formulario.get('autor')?.value,
+      imagen: this.formulario.get('imagen')?.value,
+      disponible: this.formulario.get('disponible')?.value,
+      categoria: { nombre: this.formulario.get('categoria')?.value }
+    };
+
+    if (this.libroEnEdicion) {
+      // Update existing book
+      libro.codigo = this.libroEnEdicion.codigo;
+      this.informacionService.updateLibro(libro).subscribe(response => {
+        console.log(response);
+        this.refreshLibros();
+      });
+    } else {
+      // Create new book
+      this.informacionService.addLibro(libro).subscribe(response => {
+        console.log(response);
+        this.refreshLibros();
+      });
+    }
+
+    this.formulario.reset({
+      disponible: true,
+      categoria: ''
+    });
+    this.libroEnEdicion = null;
+  }
+
+  //Deleting a book
+
+  async delete(libro: Book) {
+    this.informacionService.deleteLibro(libro.nombre).subscribe(response => {
+      console.log(response);
+      if (libro.imagen) {
+        const imgRef = ref(this.storage, libro.imagen);
+        deleteObject(imgRef)
+          .then(() => console.log("Imagen eliminada de Firebase Storage"))
+          .catch(error => console.log("Error al eliminar la imagen de Firebase Storage", error));
+      }
+      this.refreshLibros();
+    });
+  }
+
+
+  refreshLibros() {
+    this.informacionService.getLibros().subscribe(libros => {
+      this.libros = libros;
+      this.librosFiltrados = libros;
+    });
+  }
+
 
   obtenerCategoriasDisponibles(libros: Book[]): Categoria[] {
     const categoriasUnicas = [...new Set(libros.map(libro => libro.categoria.nombre))];
@@ -95,72 +151,10 @@ export class CatalagoComponent implements OnInit {
     this.mostrarCategorias = false;
   }
 
-  async onSubmit() {
-    const libro: Book = {
-      nombre: this.formulario.get('nombre')?.value,
-      precio: this.formulario.get('precio')?.value,
-      autor: this.formulario.get('autor')?.value,
-      imagen: this.formulario.get('imagen')?.value,
-      disponible: this.formulario.get('disponible')?.value,
-      categoria: { nombre: this.formulario.get('categoria')?.value }
-    };
-
-    if (this.libroEnEdicion) {
-      // Actualizar libro existente
-      libro.id = this.libroEnEdicion.id;
-      const response = await this.informacionService.updateLibro(libro);
-      console.log(response);
-    } else {
-      // Crear nuevo libro
-      const response = await this.informacionService.addLibro(libro);
-      console.log(response);
-    }
-
-    this.formulario.reset({
-      disponible: true,
-      categoria: ''
-    });
-    this.libroEnEdicion = null; // Reiniciar el libro en edición
-    this.informacionService.getLibros().subscribe(libros => {
-      this.libros = libros;
-      this.librosFiltrados = libros; // Reiniciar la lista filtrada
-    });
-  }
-
-  resetForm() {
-    this.formulario.reset({
-      disponible: true,
-      categoria: ''
-    });
-    this.libroEnEdicion = null;
-    this.cargarLibros();
-  }
-
-  cargarLibros(): void {
-    this.informacionService.getLibros().subscribe(libros => {
-      this.libros = libros;
-      this.librosFiltrados = libros;
-    });
-  }
-
-  async delete(book: Book) {
-    console.log('Attempting to delete book:', book);
-    if (book.nombre) {
-      this.informacionService.deleteLibro(book.nombre).subscribe(() => {
-        console.log('Book deleted successfully');
-        this.cargarLibros();
-      }, (error: any) => {
-        console.error('Error deleting book:', error);
-      });
-    }
-  }
-
   uploadImage($event: any) {
     const file = $event.target.files[0];
     console.log(file);
-
     const imgRef = ref(this.storage, `images/${file.name}`);
-
     uploadBytes(imgRef, file)
       .then(async response => {
         console.log(response);
@@ -169,7 +163,6 @@ export class CatalagoComponent implements OnInit {
       })
       .catch(error => console.log(error));
   }
-
   getImages() {
     const imagesRef = ref(this.storage, 'images');
     listAll(imagesRef)
@@ -221,27 +214,5 @@ export class CatalagoComponent implements OnInit {
       disponible: libro.disponible,
       categoria: libro.categoria.nombre
     });
-  }
-
-  initializeSearch() {
-    const searchButton = document.getElementById('searchButton') as HTMLButtonElement;
-    searchButton.addEventListener('click', () => {
-      this.searchBooks();
-    });
-  }
-
-  searchBooks() {
-    const searchInput = document.querySelector('.search-input') as HTMLInputElement;
-    const searchTerm = searchInput.value.toLowerCase();
-
-    if (searchTerm.trim() === '') {
-      this.librosFiltrados = this.libros;
-    } else {
-      this.librosFiltrados = this.libros.filter(libro =>
-        libro.nombre.toLowerCase().includes(searchTerm) ||
-        libro.autor.toLowerCase().includes(searchTerm) ||
-        libro.categoria.nombre.toLowerCase().includes(searchTerm)
-      );
-    }
   }
 }

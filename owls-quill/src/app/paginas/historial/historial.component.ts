@@ -26,13 +26,13 @@ export class HistorialComponent {
     const endDateInput = (document.getElementById('endDate') as HTMLInputElement).value;
 
     if (startDateInput && endDateInput) {
-      const url = `http://localhost:8080/ProyectoFinal/rs/prestamos/reservas-entre-fechas-pdf?fechaInicio=${startDateInput}&fechaFin=${endDateInput}`;
+      let url = `${enviroment.WS_PATH}/prestamos/reservas-entre-fechas-pdf?fechaInicio=${startDateInput}&fechaFin=${endDateInput}`;
       this.reportUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 
   }
 
   generateGeneralReport() {
-    this.reportUrl = this.sanitizer.bypassSecurityTrustResourceUrl('http://localhost:8080/ProyectoFinal/reportes.xhtml');
+    this.reportUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${enviroment.WC_PATH}/reportes.xhtml`);
   }
 }

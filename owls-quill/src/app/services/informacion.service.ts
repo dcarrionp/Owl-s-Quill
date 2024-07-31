@@ -10,9 +10,7 @@ import { enviroment } from '../enviroments/enviroment';
 })
 export class InformacionService {
 
-  private baseUrl: string = `${enviroment.WS_PATH}/libros`;
-
-  constructor(private firestore: Firestore, private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   addLibro(libro: Book) {
     let url = enviroment.WS_PATH + "/libros";
@@ -24,37 +22,33 @@ export class InformacionService {
     return this.http.get<any>(url);
   }
 
-  getLibro(nombre: any): Observable<Book> {
+  getLibro(nombre: string): Observable<Book> {
     let url = enviroment.WS_PATH + "/libros/" + nombre;
     return this.http.get<any>(url);
   }
 
-  deleteLibro(nombre: string): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${nombre}`);
+  deleteLibro(nombre: string) {
+    let url = `${enviroment.WS_PATH}/libros/${nombre}`;
+    return this.http.delete<any>(url);
   }
 
   updateLibro(libro: Book) {
-    const libroDocRef = doc(this.firestore, `libros/${libro.id}`);
-    return updateDoc(libroDocRef, {
-      nombre: libro.nombre,
-      precio: libro.precio,
-      autor: libro.autor,
-      imagen: libro.imagen
-    });
+    let url = `${enviroment.WS_PATH}/libros`;
+    return this.http.put<any>(url, libro);
   }
 
   getLibrosPorAutor(autor: string): Observable<Book[]> {
-    let url = enviroment.WS_PATH + "/libros/autor/" + autor;
+    let url = `${enviroment.WS_PATH}/libros/autor/${autor}`;
     return this.http.get<Book[]>(url);
   }
 
   getLibrosPorCategoria(categoria: string): Observable<Book[]> {
-    let url = enviroment.WS_PATH + "/libros/categorias/" + categoria;
+    let url = `${enviroment.WS_PATH}/libros/categorias/${categoria}`;
     return this.http.get<Book[]>(url);
   }
 
   getLibrosPorDisponibilidad(disponibilidad: boolean): Observable<Book[]> {
-    let url = enviroment.WS_PATH + "/libros/disponibilidad/" + disponibilidad;
+    let url = `${enviroment.WS_PATH}/libros/disponibilidad/${disponibilidad}`;
     return this.http.get<Book[]>(url);
   }
 }
