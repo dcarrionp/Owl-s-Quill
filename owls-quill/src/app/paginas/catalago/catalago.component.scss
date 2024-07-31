@@ -1,247 +1,247 @@
 .catalog-container {
   padding: 20px;
   font-family: Arial, sans-serif;
+}
 
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
 
-    h1 {
-      font-size: 24px;
-      margin: 0;
-    }
+.header h1 {
+  font-size: 24px;
+  margin: 0;
+}
 
-    .search-filter {
-      display: flex;
-      align-items: center;
+.header .search-filter {
+  display: flex;
+  align-items: center;
+}
 
-      input[type="text"] {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        margin-right: 10px;
-      }
+.header .search-filter input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
 
-      .filter-button {
-        background: none;
-        border: 1px solid #ccc;
-        padding: 10px;
-        border-radius: 4px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+.header .search-filter .filter-button {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-        img {
-          width: 20px;
-          height: 20px;
-        }
-      }
-    }
-  }
+.header .search-filter .filter-button img {
+  width: 20px;
+  height: 20px;
+}
 
+.add-book-form {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.add-book-form form {
+  width: 100%;
+}
+
+.add-book-form .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.add-book-form .form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.add-book-form .form-label {
+  margin-bottom: 5px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.add-book-form .form-control {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.add-book-form .imgDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.add-book-form .imgDiv .Nuevo {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.add-book-form .imgDiv .uploaded-image {
+  max-width: 150px;
+  max-height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-book-form .btn-info {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.add-book-form .btn-info:hover {
+  background-color: #0056b3;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1024px) {
   .add-book-form {
-    display: flex;
-    justify-content: center;
-    padding: 50px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 0 auto;
-    max-width: 800px;
-
-    form {
-      width: 100%;
-
-      .form-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-        justify-content: space-between;
-
-        .form-group {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          margin-bottom: 20px;
-
-          .form-label {
-            margin-bottom: 5px;
-            font-size: 1rem;
-            color: #333;
-          }
-
-          .form-control {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1rem;
-          }
-
-          .imgDiv {
-            display: flex;
-            align-items: center;
-
-            .Nuevo {
-              padding: 10px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-              font-size: 1rem;
-            }
-          }
-        }
-
-        .btn-info {
-          background-color: #007bff;
-          color: white;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          font-size: 1rem;
-          transition: background-color 0.3s ease;
-
-          &:hover {
-            background-color: #0056b3;
-          }
-        }
-      }
-    }
+    padding: 30px;
   }
 
-  /* Media Queries for Responsive Design */
-  @media (max-width: 1024px) {
-    .add-book-form {
-      padding: 30px;
-
-      .form-row {
-        gap: 10px;
-
-        .form-group {
-
-          .form-control,
-          .Nuevo {
-            font-size: 0.9rem;
-          }
-
-          .btn-info {
-            font-size: 0.9rem;
-            padding: 8px 16px;
-          }
-        }
-      }
-    }
+  .add-book-form .form-row {
+    gap: 10px;
   }
 
-  @media (max-width: 768px) {
-    .add-book-form {
-      padding: 20px;
-
-      .form-row {
-        flex-direction: column;
-        gap: 15px;
-
-        .form-group {
-          width: 100%;
-
-          .form-control,
-          .Nuevo {
-            font-size: 0.9rem;
-          }
-
-          .btn-info {
-            font-size: 0.9rem;
-            padding: 8px 16px;
-          }
-        }
-      }
-    }
+  .add-book-form .form-control,
+  .add-book-form .Nuevo {
+    font-size: 0.9rem;
   }
 
-  @media (max-width: 480px) {
-    .add-book-form {
-      padding: 10px;
+  .add-book-form .btn-info {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
 
-      .form-row {
-        .form-group {
-
-          .form-control,
-          .Nuevo {
-            font-size: 0.8rem;
-          }
-
-          .btn-info {
-            font-size: 0.8rem;
-            padding: 6px 12px;
-          }
-        }
-      }
-    }
+@media (max-width: 768px) {
+  .add-book-form {
+    padding: 20px;
   }
 
-
-  .imgDiv {
-    padding: 10px 20px;
-    color: black;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-right: 10px;
-  }
-
-  .form-row {
-    display: flex;
-    align-items: flex-end;
-    gap: 1rem;
-  }
-
-  .form-group {
-    display: flex;
+  .add-book-form .form-row {
     flex-direction: column;
+    gap: 15px;
   }
 
-  .book-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
-
-    .book-item {
-      background-color: #f0f0f0;
-      height: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 10px;
-
-      img {
-        max-width: 100%;
-        max-height: 100%;
-        margin-bottom: 10px;
-      }
-
-      .actions {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-
-        button {
-          padding: 5px 10px;
-          border: none;
-          background-color: #333;
-          color: white;
-          border-radius: 4px;
-          cursor: pointer;
-          margin-right: 5px;
-
-          &:last-child {
-            background-color: #333;
-          }
-        }
-      }
-    }
+  .add-book-form .form-group {
+    width: 100%;
   }
+
+  .add-book-form .form-control,
+  .add-book-form .Nuevo {
+    font-size: 0.9rem;
+  }
+
+  .add-book-form .btn-info {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-book-form {
+    padding: 10px;
+  }
+
+  .add-book-form .form-row .form-group .form-control,
+  .add-book-form .form-row .form-group .Nuevo {
+    font-size: 0.8rem;
+  }
+
+  .add-book-form .form-row .form-group .btn-info {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}
+
+.imgDiv {
+  padding: 10px 20px;
+  color: black;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.book-grid .book-item {
+  background-color: #f0f0f0;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.book-grid .book-item img {
+  max-width: 100%;
+  max-height: 100%;
+  margin-bottom: 10px;
+}
+
+.book-grid .book-item .actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.book-grid .book-item .actions button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.book-grid .book-item .actions button:last-child {
+  background-color: #333;
 }
 
 .search-container {
@@ -250,49 +250,49 @@
   justify-content: center;
   margin: 20px 0;
   gap: 10px;
+}
 
-  a {
-    text-decoration: none;
+.search-container a {
+  text-decoration: none;
+}
 
-    .category-button {
-      background-color: #333;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      font-size: 1rem;
+.search-container .category-button {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
 
-      &:hover {
-        background-color: #555;
-      }
-    }
-  }
+.search-container .category-button:hover {
+  background-color: #555;
+}
 
-  .search-input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: 100%;
-    max-width: 400px;
-    font-size: 1rem;
-  }
+.search-container .search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 400px;
+  font-size: 1rem;
+}
 
-  .buscar {
-    background-color: #333;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 1rem;
+.search-container .buscar {
+  background-color: #333;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1rem;
+}
 
-    &:hover {
-      background-color: #555;
-    }
-  }
+.search-container .buscar:hover {
+  background-color: #555;
 }
 
 .inFile {

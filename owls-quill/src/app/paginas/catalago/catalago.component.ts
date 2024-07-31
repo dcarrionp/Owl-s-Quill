@@ -63,31 +63,59 @@ export class CatalagoComponent implements OnInit {
       const libro: Book = {
         autor: this.formulario.get('autor')?.value,
         categoriaNombre: this.formulario.get('categoria')?.value,
-        codigo: this.libroEnEdicion?.codigo, // Ensure the 'codigo' is correctly set
+        codigo: this.libroEnEdicion?.codigo, // Ensure the 'codigo' is correctly set for PUT
         disponibilidad: this.formulario.get('disponibilidad')?.value,
         imagen: this.formulario.get('imagen')?.value,
         nombre: this.formulario.get('nombre')?.value,
         precio: this.formulario.get('precio')?.value,
       };
-
-      console.log(libro)
-
-      this.informacionService.updateLibro(libro).subscribe(
-        response => {
-          console.log('Book updated successfully', response);
-          // Optionally reset the form or update the UI
-        },
-        (error: any) => {
-          console.error('Error updating book', error);
-          if (error.error instanceof ErrorEvent) {
-            console.error('Client-side error:', error.error.message);
-          } else {
-            console.error(`Backend returned code ${error.status}, ` +
-              `body was: ${error.error}`);
+  
+      console.log('Submitting book:', libro);
+  
+      if (this.libroEnEdicion) {
+        // Update existing book
+        this.informacionService.updateLibro(libro).subscribe(
+          response => {
+            console.log('Book updated successfully', response);
+            this.resetForm();
+            // Optionally refresh the book list or update the UI
+          },
+          (error: any) => {
+            console.error('Error updating book', error);
+            if (error.error instanceof ErrorEvent) {
+              console.error('Client-side error:', error.error.message);
+            } else {
+              console.error(`Backend returned code ${error.status}, ` +
+                `body was: ${error.error}`);
+            }
           }
-        }
-      );
+        );
+      } else {
+        // Add new book
+        this.informacionService.addLibro(libro).subscribe(
+          response => {
+            console.log('Book added successfully', response);
+            this.resetForm();
+            // Optionally refresh the book list or update the UI
+          },
+          (error: any) => {
+            console.error('Error adding book', error);
+            if (error.error instanceof ErrorEvent) {
+              console.error('Client-side error:', error.error.message);
+            } else {
+              console.error(`Backend returned code ${error.status}, ` +
+                `body was: ${error.error}`);
+            }
+          }
+        );
+      }
     }
+  }
+  
+
+  resetForm() {
+    this.formulario.reset();
+    this.libroEnEdicion = null;
   }
 
 
@@ -107,7 +135,7 @@ export class CatalagoComponent implements OnInit {
 
 
   obtenerCategoriasDisponibles() {
-    
+
   }
 
   filterCategorias() {
@@ -144,29 +172,30 @@ export class CatalagoComponent implements OnInit {
 
   uploadImage($event: any) {
     const file = $event.target.files[0];
-    console.log(file);
     const imgRef = ref(this.storage, `images/${file.name}`);
     uploadBytes(imgRef, file)
       .then(async response => {
-        console.log(response);
         const url = await getDownloadURL(imgRef);
-        this.formulario.patchValue({ imagen: url }); // Actualizar el valor del control 'imagen' en el formulario
+        this.formulario.patchValue({ imagen: url });
+        console.log('Image uploaded and URL set in form:', url);
       })
       .catch(error => console.log(error));
   }
+  
+
   getImages() {
     const imagesRef = ref(this.storage, 'images');
     listAll(imagesRef)
       .then(async response => {
-        console.log(response);
         this.images = [];
-        for (let item of response.items) { // Recorrer y obtener los items
+        for (let item of response.items) {
           const url = await getDownloadURL(item);
           this.images.push(url);
         }
       })
       .catch(error => console.log(error));
   }
+
 
   filtrarPorCategoria(categoria: any): void {
     switch (categoria.nombre) {
@@ -202,8 +231,9 @@ export class CatalagoComponent implements OnInit {
       precio: libro.precio,
       autor: libro.autor,
       imagen: libro.imagen,
-      disponible: libro.disponibilidad,
+      disponibilidad: libro.disponibilidad,
       categoria: libro.categoriaNombre
     });
   }
+  
 }
