@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, signOut, updateProfile } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, signOut, updateProfile, User } from '@angular/fire/auth';
 import { Firestore, collectionData, doc, docData, updateDoc } from '@angular/fire/firestore';
 import { addDoc, collection, deleteDoc, getDocs, query, where } from 'firebase/firestore';
 import { from, Observable, of } from 'rxjs';
@@ -63,5 +63,11 @@ export class UserService {
   updateUsuario(uid: string, data: Partial<user>): Promise<void> {
     const usuarioDoc = doc(this.firestore, `usuarios/${uid}`);
     return updateDoc(usuarioDoc, data);
+  }
+
+  getCurrentUser(): Observable<User | null> {
+    return new Observable((subscriber) => {
+      this.auth.onAuthStateChanged(subscriber);
+    });
   }
 }

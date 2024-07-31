@@ -54,4 +54,8 @@ export class InformacionService {
   toggleLibroDisponibilidad(endpoint: string): Observable<void> {
     return this.http.put<void>(`${enviroment.WS_PATH}${endpoint}`, {});
   }
+
+  crearPrestamo(prestamo: any): Observable<any> {
+    return this.http.post<any>(`${enviroment.WS_PATH}/prestamos`, prestamo);
+  }
 }

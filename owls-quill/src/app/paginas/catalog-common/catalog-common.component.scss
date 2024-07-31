@@ -1,14 +1,165 @@
-.contenedor {
-  max-width: 120rem;
-  margin: 0 auto;
-  padding: 2rem;
+.catalog-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
 }
 
-.contenedor h1 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 2rem;
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.header .search-filter {
+  display: flex;
+  align-items: center;
+}
+
+.header .search-filter input[type="text"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.header .search-filter .filter-button {
+  background: none;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header .search-filter .filter-button img {
+  width: 20px;
+  height: 20px;
+}
+
+.add-book-form {
+  display: flex;
+  justify-content: center;
+  padding: 50px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.add-book-form form {
+  width: 100%;
+}
+
+.add-book-form .form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.add-book-form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.add-book-form .form-label {
+  margin-bottom: 5px;
+  font-size: 1rem;
   color: #333;
+}
+
+.add-book-form .form-control {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.add-book-form .imgDiv {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.add-book-form .imgDiv .Nuevo {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.add-book-form .imgDiv .uploaded-image {
+  max-width: 150px;
+  max-height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-book-form .btn-info {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.add-book-form .btn-info:hover {
+  background-color: #0056b3;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.book-grid .book-item {
+  background-color: #f0f0f0;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.book-grid .book-item img {
+  max-width: 100%;
+  max-height: 100%;
+  margin-bottom: 10px;
+}
+
+.book-grid .book-item .actions {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.book-grid .book-item .actions button {
+  padding: 5px 10px;
+  border: none;
+  background-color: #333;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.book-grid .book-item .actions button:last-child {
+  background-color: #333;
 }
 
 .search-container {
@@ -17,6 +168,10 @@
   justify-content: center;
   margin: 20px 0;
   gap: 10px;
+}
+
+.search-container a {
+  text-decoration: none;
 }
 
 .search-container .category-button {
@@ -56,6 +211,121 @@
 
 .search-container .buscar:hover {
   background-color: #555;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1024px) {
+  .add-book-form {
+    padding: 30px;
+  }
+
+  .add-book-form .form-grid {
+    gap: 10px;
+  }
+
+  .add-book-form .form-control,
+  .add-book-form .Nuevo {
+    font-size: 0.9rem;
+  }
+
+  .add-book-form .btn-info {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .add-book-form {
+    padding: 20px;
+  }
+
+  .add-book-form .form-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .add-book-form .form-group {
+    width: 100%;
+  }
+
+  .add-book-form .form-control,
+  .add-book-form .Nuevo {
+    font-size: 0.9rem;
+  }
+
+  .add-book-form .btn-info {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .add-book-form {
+    padding: 10px;
+  }
+
+  .add-book-form .form-grid .form-group .form-control,
+  .add-book-form .form-grid .form-group .Nuevo {
+    font-size: 0.8rem;
+  }
+
+  .add-book-form .form-grid .form-group .btn-info {
+    font-size: 0.8rem;
+    padding: 6px 12px;
+  }
+}
+
+/* Styles for filter buttons and lists */
+.filtro-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filtro-container h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.categorias-lista {
+  list-style-type: none;
+  padding: 0;
+}
+
+.categorias-lista li {
+  margin-bottom: 10px;
+}
+
+.categorias-lista button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.categorias-lista button:hover {
+  background-color: #0056b3;
+}
+
+.autores-lista, .categorias-disponibles-lista {
+  list-style-type: none;
+  padding-left: 20px;
+}
+
+.autores-lista li, .categorias-disponibles-lista li {
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.autores-lista li:hover, .categorias-disponibles-lista li:hover {
+  text-decoration: underline;
 }
 
 .libros {
@@ -132,77 +402,4 @@
 
 .btn-reservar i {
   font-size: 1.2rem;
-}
-
-/* Media Queries for Responsive Design */
-@media (max-width: 1024px) {
-  .search-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-container .category-button,
-  .search-container .buscar {
-    margin-bottom: 10px;
-    width: 100%;
-  }
-
-  .btn-reservar {
-    font-size: 0.9rem;
-    padding: 8px 16px;
-  }
-
-  .btn-reservar i {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .search-container {
-    margin: 15px 0;
-  }
-
-  .search-container .category-button,
-  .search-container .buscar {
-    font-size: 0.9rem;
-    padding: 8px 16px;
-  }
-
-  .search-container .search-input {
-    font-size: 0.9rem;
-  }
-
-  .btn-reservar {
-    font-size: 0.8rem;
-    padding: 8px 16px;
-  }
-
-  .btn-reservar i {
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .search-container {
-    margin: 10px 0;
-  }
-
-  .search-container .category-button,
-  .search-container .buscar {
-    font-size: 0.8rem;
-    padding: 6px 12px;
-  }
-
-  .search-container .search-input {
-    font-size: 0.8rem;
-  }
-
-  .btn-reservar {
-    font-size: 0.7rem;
-    padding: 6px 12px;
-  }
-
-  .btn-reservar i {
-    font-size: 0.8rem;
-  }
 }

@@ -1,9 +1,10 @@
-<!--<main class="contenedor">
+<main class="contenedor">
     <h1>CATALOGO</h1>
     <div class="search-container">
-        <button class="category-button" (click)="toggleFiltro()">Filtros</button>
-        <input type="text" placeholder="Buscar" class="search-input" (keyup.enter)="filtro()" [(ngModel)]="nombre">
-        <button class="buscar" (click)="filtro()">Buscar</button>
+        <button class="category-button" (click)="toggleMostrarFiltro()">Filtros</button>
+        <input type="text" placeholder="Buscar" class="search-input" (keyup.enter)="onSearch()"
+            [(ngModel)]="searchTerm">
+        <button class="buscar" (click)="onSearch()">Buscar</button>
     </div>
 
     <div class="contenido">
@@ -11,13 +12,14 @@
             <h2>Categorías</h2>
             <ul class="categorias-lista">
                 <li *ngFor="let categoria of categorias">
-                    <a (click)="filtrarPorCategoria(categoria)">{{ categoria.nombre }}</a>
+                    <button (click)="filtrarPorCategoria(categoria)">{{ categoria.nombre }}</button>
                     <ul *ngIf="categoria.nombre === 'Autores' && mostrarAutores" class="autores-lista">
-                        <li *ngFor="let autor of autores" (click)="filtrarPorAutor(autor)">
+                        <li *ngFor="let autor of autores" (click)="filtrarPorAutorEspecifico(autor)">
                             {{ autor }}
                         </li>
                     </ul>
-                    <ul *ngIf="categoria.nombre === 'Categoria' && mostrarCategorias" class="categorias-disponibles-lista">
+                    <ul *ngIf="categoria.nombre === 'Categoria' && mostrarCategorias"
+                        class="categorias-disponibles-lista">
                         <li *ngFor="let cat of categoriasDisponibles" (click)="filtrarPorCategoriaEspecifica(cat)">
                             {{ cat.nombre }}
                         </li>
@@ -36,8 +38,10 @@
                     <p>Autor: {{libro.autor}}</p>
                     <h5>$ {{libro.precio}}</h5>
                 </div>
-                <button class="btn-reservar" (click)="seleccionarLibro(libro)"><i class="fas fa-pencil-alt"></i>Reservar</button>
+                <button class="btn-reservar" (click)="seleccionarLibro(libro)"><i
+                        class="fas fa-pencil-alt"></i>Reservar</button>
             </div>
+            <app-reserva></app-reserva>
         </div>
     </div>
-</main>-->
+</main>
