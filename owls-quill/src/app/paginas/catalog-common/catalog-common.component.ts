@@ -15,8 +15,8 @@ import Categoria from '../../domain/categoria';
   templateUrl: './catalog-common.component.html',
   styleUrl: './catalog-common.component.scss'
 })
-export class CatalogCommonComponent implements OnInit{
-  libros!: Book[];
+export class CatalogCommonComponent {
+  /*libros!: Book[];
   librosFiltrados!: Book[];
   nombre: any;
   categorias = [
@@ -115,6 +115,6 @@ export class CatalogCommonComponent implements OnInit{
 
   seleccionarLibro(libro: Book): void {
     this.router.navigate(['/reserva'], { state: { libroSeleccionado: libro } });
-  }
+  }*/
 
 }

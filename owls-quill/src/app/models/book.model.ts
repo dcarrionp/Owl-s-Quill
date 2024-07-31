@@ -6,6 +6,6 @@ export default interface Book {
   autor: string;
   precio: number;
   imagen: string;
-  disponible: boolean;
-  categoria: Categoria;
+  disponibilidad: boolean;
+  categoriaNombre: String;
 }

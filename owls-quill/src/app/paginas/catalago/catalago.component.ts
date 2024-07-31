@@ -50,7 +50,7 @@ export class CatalagoComponent implements OnInit {
       this.libros = libros;
       this.librosFiltrados = libros; // Inicialmente mostrar todos los libros
       this.autores = [...new Set(libros.map(libro => libro.autor))]; // Obtener lista única de autores
-      this.categoriasDisponibles = this.obtenerCategoriasDisponibles(libros); // Obtener lista única de categorías
+      //this.categoriasDisponibles = this.categoriasDisponibles(libros); // Obtener lista única de categorías
     });
 
     this.getImages();
@@ -58,51 +58,43 @@ export class CatalagoComponent implements OnInit {
 
   //Adding a new book
 
-  async onSubmit() {
-    const libro: Book = {
-      nombre: this.formulario.get('nombre')?.value,
-      precio: this.formulario.get('precio')?.value,
-      autor: this.formulario.get('autor')?.value,
-      imagen: this.formulario.get('imagen')?.value,
-      disponible: this.formulario.get('disponible')?.value,
-      categoria: { nombre: this.formulario.get('categoria')?.value }
-    };
+  onSubmit() {
+    if (this.formulario.valid) {
+      const libro: Book = {
+        autor: this.formulario.get('autor')?.value,
+        categoriaNombre: this.formulario.get('categoria')?.value,
+        codigo: this.libroEnEdicion?.codigo, // Ensure the 'codigo' is correctly set
+        disponibilidad: this.formulario.get('disponibilidad')?.value,
+        imagen: this.formulario.get('imagen')?.value,
+        nombre: this.formulario.get('nombre')?.value,
+        precio: this.formulario.get('precio')?.value,
+      };
 
-    if (this.libroEnEdicion) {
-      // Update existing book
-      libro.codigo = this.libroEnEdicion.codigo;
-      this.informacionService.updateLibro(libro).subscribe(response => {
-        console.log(response);
-        this.refreshLibros();
-      });
-    } else {
-      // Create new book
-      this.informacionService.addLibro(libro).subscribe(response => {
-        console.log(response);
-        this.refreshLibros();
-      });
+      console.log(libro)
+
+      this.informacionService.updateLibro(libro).subscribe(
+        response => {
+          console.log('Book updated successfully', response);
+          // Optionally reset the form or update the UI
+        },
+        (error: any) => {
+          console.error('Error updating book', error);
+          if (error.error instanceof ErrorEvent) {
+            console.error('Client-side error:', error.error.message);
+          } else {
+            console.error(`Backend returned code ${error.status}, ` +
+              `body was: ${error.error}`);
+          }
+        }
+      );
     }
-
-    this.formulario.reset({
-      disponible: true,
-      categoria: ''
-    });
-    this.libroEnEdicion = null;
   }
+
 
   //Deleting a book
 
-  async delete(libro: Book) {
-    this.informacionService.deleteLibro(libro.nombre).subscribe(response => {
-      console.log(response);
-      if (libro.imagen) {
-        const imgRef = ref(this.storage, libro.imagen);
-        deleteObject(imgRef)
-          .then(() => console.log("Imagen eliminada de Firebase Storage"))
-          .catch(error => console.log("Error al eliminar la imagen de Firebase Storage", error));
-      }
-      this.refreshLibros();
-    });
+  delete(libro: Book) {
+
   }
 
 
@@ -114,9 +106,8 @@ export class CatalagoComponent implements OnInit {
   }
 
 
-  obtenerCategoriasDisponibles(libros: Book[]): Categoria[] {
-    const categoriasUnicas = [...new Set(libros.map(libro => libro.categoria.nombre))];
-    return categoriasUnicas.map(nombre => ({ nombre }));
+  obtenerCategoriasDisponibles() {
+    
   }
 
   filterCategorias() {
@@ -147,7 +138,7 @@ export class CatalagoComponent implements OnInit {
   }
 
   filtrarPorCategoriaEspecifica(categoria: Categoria): void {
-    this.librosFiltrados = this.libros.filter(libro => libro.categoria.nombre === categoria.nombre);
+    this.librosFiltrados = this.libros.filter(libro => libro.categoriaNombre === categoria.nombre);
     this.mostrarCategorias = false;
   }
 
@@ -201,7 +192,7 @@ export class CatalagoComponent implements OnInit {
   }
 
   filtrarPorDisponibilidad() {
-    this.librosFiltrados = this.libros.filter(libro => libro.disponible);
+    this.librosFiltrados = this.libros.filter(libro => libro.disponibilidad);
   }
 
   edit(libro: Book) {
@@ -211,8 +202,8 @@ export class CatalagoComponent implements OnInit {
       precio: libro.precio,
       autor: libro.autor,
       imagen: libro.imagen,
-      disponible: libro.disponible,
-      categoria: libro.categoria.nombre
+      disponible: libro.disponibilidad,
+      categoria: libro.categoriaNombre
     });
   }
 }
