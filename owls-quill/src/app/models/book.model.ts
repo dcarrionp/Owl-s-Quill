@@ -8,4 +8,5 @@ export default interface Book {
   imagen: string;
   disponibilidad: boolean;
   categoriaNombre: String;
+  stock: number;
 }

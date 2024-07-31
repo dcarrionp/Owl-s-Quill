@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, updateDoc } from '@angular/fire/firestore';
 import Book from '../models/book.model';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { enviroment } from '../enviroments/enviroment';
 
 @Injectable({
@@ -27,9 +27,13 @@ export class InformacionService {
     return this.http.get<any>(url);
   }
 
-  deleteLibro(nombre: string) {
-    let url = `${enviroment.WS_PATH}/libros/${nombre}`;
-    return this.http.delete<any>(url);
+  deleteLibro(nombre: string): Observable<void> {
+    const url = `${enviroment.WS_PATH}/libros?nombre=${nombre}`;
+    return this.http.delete<void>(url, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    });
   }
 
   updateLibro(libro: Book) {
@@ -47,8 +51,7 @@ export class InformacionService {
     return this.http.get<Book[]>(url);
   }
 
-  getLibrosPorDisponibilidad(disponibilidad: boolean): Observable<Book[]> {
-    let url = `${enviroment.WS_PATH}/libros/disponibilidad/${disponibilidad}`;
-    return this.http.get<Book[]>(url);
+  toggleLibroDisponibilidad(endpoint: string): Observable<void> {
+    return this.http.put<void>(`${enviroment.WS_PATH}${endpoint}`, {});
   }
 }

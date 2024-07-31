@@ -14,6 +14,7 @@ import Categoria from '../../domain/categoria';
   standalone: true
 })
 export class CatalagoComponent implements OnInit {
+  searchTerm: string = '';
   images: string[];
   formulario: FormGroup;
   libros!: Book[];
@@ -41,7 +42,8 @@ export class CatalagoComponent implements OnInit {
       autor: new FormControl(),
       imagen: new FormControl(),
       disponible: new FormControl(true), // Predeterminado a verdadero
-      categoria: new FormControl('') // Campo de texto para la categoría
+      categoria: new FormControl(''), // Campo de texto para la categoría
+      stock: new FormControl()
     });
     this.images = [];
   }
@@ -56,6 +58,38 @@ export class CatalagoComponent implements OnInit {
     this.getImages();
   }
 
+  // Alternar disponibilidad del libro
+  toggleAvailability(libro: Book) {
+    const endpoint = libro.disponibilidad ? `/libros/${libro.codigo}/desactivar` : `/libros/${libro.codigo}/activar`;
+    this.informacionService.toggleLibroDisponibilidad(endpoint).subscribe(
+      () => {
+        console.log('Book availability toggled successfully');
+        this.refreshLibros();
+      },
+      (error: any) => {
+        console.error('Error toggling book availability', error);
+        if (error.error instanceof ErrorEvent) {
+          console.error('Client-side error:', error.error.message);
+        } else {
+          console.error(`Backend returned code ${error.status}, ` +
+            `body was: ${error.error}`);
+        }
+      }
+    );
+  }
+
+  onSearch() {
+    if (this.searchTerm) {
+      this.librosFiltrados = this.libros.filter(libro =>
+        libro.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        libro.autor.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    } else {
+      this.librosFiltrados = this.libros; // Mostrar todos los libros si no hay término de búsqueda
+    }
+  }
+
+
   //Adding a new book
 
   onSubmit() {
@@ -68,10 +102,11 @@ export class CatalagoComponent implements OnInit {
         imagen: this.formulario.get('imagen')?.value,
         nombre: this.formulario.get('nombre')?.value,
         precio: this.formulario.get('precio')?.value,
+        stock: this.formulario.get('stock')?.value
       };
-  
+
       console.log('Submitting book:', libro);
-  
+
       if (this.libroEnEdicion) {
         // Update existing book
         this.informacionService.updateLibro(libro).subscribe(
@@ -111,7 +146,7 @@ export class CatalagoComponent implements OnInit {
       }
     }
   }
-  
+
 
   resetForm() {
     this.formulario.reset();
@@ -122,7 +157,21 @@ export class CatalagoComponent implements OnInit {
   //Deleting a book
 
   delete(libro: Book) {
-
+    this.informacionService.deleteLibro(libro.nombre).subscribe(
+      () => {
+        console.log('Book deleted successfully');
+        this.refreshLibros();
+      },
+      (error: any) => {
+        console.error('Error deleting book', error);
+        if (error.error instanceof ErrorEvent) {
+          console.error('Client-side error:', error.error.message);
+        } else {
+          console.error(`Backend returned code ${error.status}, ` +
+            `body was: ${error.error}`);
+        }
+      }
+    );
   }
 
 
@@ -181,7 +230,7 @@ export class CatalagoComponent implements OnInit {
       })
       .catch(error => console.log(error));
   }
-  
+
 
   getImages() {
     const imagesRef = ref(this.storage, 'images');
@@ -235,5 +284,5 @@ export class CatalagoComponent implements OnInit {
       categoria: libro.categoriaNombre
     });
   }
-  
+
 }

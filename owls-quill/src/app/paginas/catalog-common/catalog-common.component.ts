@@ -16,7 +16,7 @@ import Categoria from '../../domain/categoria';
   styleUrl: './catalog-common.component.scss'
 })
 export class CatalogCommonComponent {
-  libros!: Book[];
+  /*libros!: Book[];
   librosFiltrados!: Book[];
   nombre: any;
   categorias = [
@@ -39,15 +39,15 @@ export class CatalogCommonComponent {
       this.libros = libros;
       this.librosFiltrados = libros;
       this.autores = [...new Set(libros.map(libro => libro.autor))];
-      //this.categoriasDisponibles = this.obtenerCategoriasDisponibles(libros);
+      this.categoriasDisponibles = this.obtenerCategoriasDisponibles(libros);
     });
     this.checkScreenSize();
   }
 
-  /*obtenerCategoriasDisponibles(libros: Book[]): Categoria[] {
-    const categoriasUnicas = [...new Set(libros.map(libro => libro.categoriaNombre))];
+  obtenerCategoriasDisponibles(libros: Book[]): Categoria[] {
+    const categoriasUnicas = [...new Set(libros.map(libro => libro.categoria.nombre))];
     return categoriasUnicas.map(nombre => ({ nombre }));
-  }*/
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any): void {
@@ -115,6 +115,6 @@ export class CatalogCommonComponent {
 
   seleccionarLibro(libro: Book): void {
     this.router.navigate(['/reserva'], { state: { libroSeleccionado: libro } });
-  }
+  }*/
 
 }
